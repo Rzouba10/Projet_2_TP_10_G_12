@@ -1,10 +1,12 @@
 from requirement.fltk import *
+from gui.interface import *
 
 if __name__ == "__main__":
     cree_fenetre(800,800)
 
     points = []
-    sol = []
+
+    init_niveaux()
 
     while True:
 
