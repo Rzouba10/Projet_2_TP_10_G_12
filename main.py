@@ -20,7 +20,13 @@ if __name__ == "__main__":
             x = abscisse(evenement)
             y = ordonnee(evenement)
 
-            points.append((x,y))
+            # creation de niveau
+
+            if len(points) == 2:
+                rectangle(points[0][0],points[0][1],points[1][0],points[1][1],remplissage="yellow")
+                points = []
+            else:
+                points.append((x,y))
 
     print(points)
 
