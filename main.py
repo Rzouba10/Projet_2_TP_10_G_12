@@ -3,8 +3,23 @@ from requirement.fltk import *
 if __name__ == "__main__":
     cree_fenetre(800,800)
 
-    attend_ev()
+    points = []
+    sol = []
 
-    lst_block =[]
+    while True:
+
+        evenement = attend_ev()
+        type_evenement = type_ev(evenement)
+
+        if type_evenement == "Quitte":
+            break
+
+        if type_evenement == "ClicGauche":
+            x = abscisse(evenement)
+            y = ordonnee(evenement)
+
+            points.append((x,y))
+
+    print(points)
 
     ferme_fenetre()
