@@ -1,3 +1,4 @@
 MUR_GAUCHE = (0,0)
 MUR_DROIT = (0,0)
 SOL = (0,0)
+VMAX = None
