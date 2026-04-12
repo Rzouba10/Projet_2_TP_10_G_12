@@ -46,5 +46,5 @@ class Bloc:
         
 
 jeu = Game()
-jeu.ranger_donnees("niveaux/niveaux_1.txt")
+jeu.ranger_donnees("niveaux/desert/nv1.txt")
 print(jeu.lst_blocs[0])
