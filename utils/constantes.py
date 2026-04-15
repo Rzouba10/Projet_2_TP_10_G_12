@@ -4,6 +4,8 @@ MUR_DROIT = [[780,0],[800,780]]
 SOL = [[0,780],[800,800]]
 LARGEUR = 20          
 HAUTEUR = 20
+PAS = 0.5
+GRAVITE = (0,0.5)
 STATUE_JEU = False
 LISTE_SKIN = [["agent_secret","astronaute","aventurier"],
               ["batman","luigi","mario"],

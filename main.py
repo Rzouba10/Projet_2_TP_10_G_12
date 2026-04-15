@@ -118,7 +118,17 @@ def gestion_clique(x,y,mon_jeu):
                 return
 
             if 130 <= x <= 670 and 170 <= y <= 300:
-                pass
+                menu_actuel = "JEU"
+                charger_niveau(skin,mon_jeu,theme)
+
+        elif menu_actuel == "JEU":
+            efface_tout()
+
+            charger_niveau(skin,mon_jeu,theme)
+
+            vect = mon_jeu.clic_vers_vitesse((x,y))
+
+            dessiner_vecteur(mon_jeu,vect)
 
 if __name__ == "__main__":
     
@@ -130,6 +140,7 @@ if __name__ == "__main__":
     
     point = []
     mon_jeu = Game()
+    mon_jeu.ranger_donnees("niveaux/desert/nv1.txt")
     
     cree_fenetre(800,800)
     
@@ -150,6 +161,12 @@ if __name__ == "__main__":
             
             point.append((x,y))
 
+        if type_ev(evenement) == "ClicDroit":
+            print("1")
+            x = abscisse(evenement)
+            y = ordonnee(evenement)
+
+            mouvement(jeu,skin,theme)
     
     print(point)
     
