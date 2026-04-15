@@ -37,20 +37,15 @@ class Game:
             )
     
     def clic_vers_vitesse(self, clic):
-        """EX clic = (X,Y)"""
-        dx = clic[0] - self.position_x
-        dy = clic[1] - self.position_y
-        distance = sqrt(dx**2+dy**2)
-        ratio = 1
+        u_x = clic[0] - self.position_x
+        u_y = clic[1] - self.position_y
+        distance = sqrt(u_x**2+u_y**2)
         if distance > VMAX:
             ratio = VMAX / distance
-            print(distance)
-            print(ratio)
-            dx = dx*ratio
-            dy = dy*ratio
+            u_x= u_x*ratio + self.position_x
+            u_y= u_y*ratio + self.position_y
 
-
-        return [(self.position_x,self.position_y),(int(clic[0]*ratio),int(clic[1]*ratio))]
+        return (int(u_x),int(u_y))
 
 class Bloc:
     def __init__(self,coin_sup_gauche,coin_inf_droit,type):
@@ -64,5 +59,4 @@ class Bloc:
 VMAX = 50
 jeu = Game()
 jeu.ranger_donnees("niveaux/desert/nv1.txt")
-print(jeu.clic_vers_vitesse((200,200)))
 print(jeu.lst_blocs[0])
