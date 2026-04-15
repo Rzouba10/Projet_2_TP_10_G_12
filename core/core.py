@@ -42,10 +42,19 @@ class Game:
         distance = sqrt(u_x**2+u_y**2)
         if distance > VMAX:
             ratio = VMAX / distance
-            u_x= u_x*ratio + self.position_x
-            u_y= u_y*ratio + self.position_y
+        else:
+            ratio = 1
+        u_x= u_x*ratio + self.position_x
+        u_y= u_y*ratio + self.position_y
 
         return (int(u_x),int(u_y))
+
+    def detection_colision(self,bloc):
+        ...
+
+    def en_collision(self):
+        for bloc in self.lst_blocs:
+            ...
 
 class Bloc:
     def __init__(self,coin_sup_gauche,coin_inf_droit,type):
