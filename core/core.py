@@ -1,3 +1,4 @@
+from math import *
 #from utils.constantes import *
 
 class Game:
@@ -34,6 +35,22 @@ class Game:
             self.lst_blocs.append(
                 Bloc((int(temp[0]),int(temp[1])),(int(temp[2]),int(temp[3])),temp[4])
             )
+    
+    def clic_vers_vitesse(self, clic):
+        """EX clic = (X,Y)"""
+        dx = clic[0] - self.position_x
+        dy = clic[1] - self.position_y
+        distance = sqrt(dx**2+dy**2)
+        ratio = 1
+        if distance > VMAX:
+            ratio = VMAX / distance
+            print(distance)
+            print(ratio)
+            dx = dx*ratio
+            dy = dy*ratio
+
+
+        return [(self.position_x,self.position_y),(int(clic[0]*ratio),int(clic[1]*ratio))]
 
 class Bloc:
     def __init__(self,coin_sup_gauche,coin_inf_droit,type):
@@ -44,7 +61,8 @@ class Bloc:
     def __str__(self):
         return f'{self.coin_sup_gauche} {self.coin_inf_droit} {self.type}'
         
-
+VMAX = 50
 jeu = Game()
 jeu.ranger_donnees("niveaux/desert/nv1.txt")
+print(jeu.clic_vers_vitesse((200,200)))
 print(jeu.lst_blocs[0])
