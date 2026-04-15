@@ -20,7 +20,14 @@ def gestion_clique(x,y,mon_jeu):
                 image(400, 400, "ressource/image/fond/menue.png")
                 image(400, 400, "ressource/image/fond/theme.png")
                 retour = image(400, 750, "ressource/image/fond/bouton_retour.png")
-                
+            
+            if 290 <= x <= 510 and 460 <= y <= 520:
+                menu_actuel = "EDITEUR"
+                efface_tout()
+                image(400, 400, "ressource/image/fond/menue.png")
+                image(400, 400, "ressource/image/fond/creation.png")
+                retour = image(400, 770, "ressource/image/fond/bouton_retour.png")
+
         elif menu_actuel == "SKIN":
             
             if 300 <= x <= 500 and 720 <= y <= 780:
@@ -46,6 +53,14 @@ def gestion_clique(x,y,mon_jeu):
                         charger_menue_skin(skin)
                         
                         return
+
+        elif menu_actuel == "EDITEUR":
+
+            if 300 <= x <= 500 and 730 <= y <= 790:
+                menu_actuel = "PRINCIPAL"
+                efface_tout()
+                charger_menue(skin, premier_lancement=False) 
+                return
 
         elif menu_actuel == "THEME":
             
@@ -101,13 +116,17 @@ def gestion_clique(x,y,mon_jeu):
                 efface_tout()
                 charger_menue(skin, premier_lancement=False) 
                 return
-        
+
+            if 130 <= x <= 670 and 170 <= y <= 300:
+                pass
+
 if __name__ == "__main__":
     
     menu_actuel = "PRINCIPAL"
     skin = "standar"
     theme = ""
     niveau = 0
+    creation = []
     
     point = []
     mon_jeu = Game()
