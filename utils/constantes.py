@@ -1,12 +1,56 @@
-VMAX = 50
+
+# Block
 MUR_GAUCHE = [[0,0],[20,780]]
 MUR_DROIT = [[780,0],[800,780]]
 SOL = [[0,780],[800,800]]
-LARGEUR = 20          
-HAUTEUR = 20
-PAS = 0.5
-GRAVITE = (0,0.5)
+
+# Jeu
+VMAX = 50
+PAS = 0.2
+GRAVITE = (0, 9.81)
 STATUE_JEU = False
+
+# Skin
+LARGEUR = 20         
+HAUTEUR = 20
+TAILLE_PERSO = 10
+
+HAUTEUR_BLOC = {
+    "desert": 35,
+    "espace": 33,
+    "foret":  29,
+    "pirate": 33,
+}
+LARGEUR_BLOC = {
+    "desert": 100,
+    "espace": 99,
+    "foret":  98,
+    "pirate": 100,
+}
+
 LISTE_SKIN = [["agent_secret","astronaute","aventurier"],
               ["batman","luigi","mario"],
               ["pirates","standar","superman"]]   
+
+COULEURS_BLOCS = {
+    "normal":     "green",
+    "glace":      "cyan",
+    "derape":     "orange",
+    "colant":     "purple",
+    "elastique":  "yellow",
+    "trampoline": "pink",
+}
+
+NOMS_BLOCS_SPECIAUX = {
+    "trampoline":    "amorti.png",
+    "colant":    "colant.png",
+    "derape":  "derapage.png",
+    "elastique": "elastique.png",
+    "glace":"glissement.png",
+}
+
+TAILLE_BLOC_L = 150  
+TAILLE_BLOC_H = 40   
+
+FINESSE_POSITION = 10
+INCREMENT_VITESSE = 80
