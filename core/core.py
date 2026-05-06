@@ -65,12 +65,12 @@ class Game:
     def detection_colision(self,coin_sup_gauche,coin_inf_droit):
         x_max = coin_inf_droit[0]
         x_min = coin_sup_gauche[0]
-        y_max = coin_sup_gauche[1]
-        y_min = coin_inf_droit[1]
+        y_max = coin_inf_droit[1]
+        y_min = coin_sup_gauche[1]
 
-        if (self.position_x > x_min and self.position_x < x_max) or (self.position_y > y_min and self.position_y < y_max):
+        if (self.position_x > x_min and self.position_x < x_max) and (self.position_y > y_min and self.position_y < y_max):
             return True
-            
+        return False
 
     def en_collision(self):
         for bloc in self.lst_blocs:
