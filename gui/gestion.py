@@ -236,21 +236,24 @@ def gestion_clique(x, y, mon_jeu, etat):
                 etat.menu = "JEU"
                 etat.niveau = 1
                 nv_skin = etat.skin + "_j"
-                etat.trace.clear() 
+                etat.trace.clear()
+                mon_jeu.vider() 
                 charger_page_niveau(etat.theme, etat.niveau, nv_skin, mon_jeu)
             
             if 130 <= x <= 670 and 320 <= y <= 440:
                 etat.menu = "JEU"
                 etat.niveau = 2
                 nv_skin = etat.skin + "_j"
-                etat.trace.clear() 
+                etat.trace.clear()
+                mon_jeu.vider()
                 charger_page_niveau(etat.theme, etat.niveau, nv_skin, mon_jeu)
             
             if 130 <= x <= 670 and 460 <= y <= 590:
                 etat.menu = "JEU"
                 etat.niveau = 3
                 nv_skin = etat.skin + "_j"
-                etat.trace.clear() 
+                etat.trace.clear()
+                mon_jeu.vider()  
                 charger_page_niveau(etat.theme, etat.niveau, nv_skin, mon_jeu)
 
         elif etat.menu == "JEU":
