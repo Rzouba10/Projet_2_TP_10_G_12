@@ -3,7 +3,6 @@ from core.core import *
 from gui.interface import *
 from utils.constantes import *
 from utils.sauvegarde import *
-from core.solveur import *
 import os
 
 def maj_page(etat, nouvelle_page):
