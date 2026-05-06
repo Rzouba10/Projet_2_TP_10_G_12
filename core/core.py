@@ -1,9 +1,18 @@
 from math import *
-#from utils.constantes import *
+from utils.constantes import *
 
 class Game:
 
     def __init__(self):
+        self.position_x = 0
+        self.position_y = 0
+        self.vitesse_x = 0
+        self.vitesse_y = 0
+        self.nb_jump = 0
+        self.objectif = None
+        self.lst_blocs = list()
+
+    def vider(self):
         self.position_x = 0
         self.position_y = 0
         self.vitesse_x = 0
@@ -42,12 +51,16 @@ class Game:
         distance = sqrt(u_x**2+u_y**2)
         if distance > VMAX:
             ratio = VMAX / distance
+
+            self.vitesse_x = u_x*ratio
+            self.vitesse_y = u_y*ratio
         else:
             ratio = 1
         u_x= u_x*ratio + self.position_x
         u_y= u_y*ratio + self.position_y
 
         return (int(u_x),int(u_y))
+        
 
     def detection_colision(self,coin_sup_gauche,coin_inf_droit):
         x_max = coin_inf_droit[0]
@@ -55,17 +68,21 @@ class Game:
         y_max = coin_sup_gauche[1]
         y_min = coin_inf_droit[1]
 
-        if (self.position_x >= x_min and self.position_x <= x_max) and (self.position_y >= y_min and self.position_x <= y_max):
+        if (self.position_x > x_min and self.position_x < x_max) or (self.position_y > y_min and self.position_y < y_max):
             return True
+            
 
     def en_collision(self):
         for bloc in self.lst_blocs:
             if self.detection_colision(bloc.coin_sup_gauche,bloc.coin_inf_droit):
                 return True
+        if self.detection_colision(SOL[0],SOL[1]) or self.detection_colision(MUR_GAUCHE[0],MUR_GAUCHE[1]) or self.detection_colision(MUR_DROIT[0],MUR_DROIT[1]):
+            return True
         return False
 
     def is_winnable(self):
         return self.en_collision(self.objectif[0],self.objectif[1])
+
 
 class Bloc:
     def __init__(self,coin_sup_gauche,coin_inf_droit,type):
