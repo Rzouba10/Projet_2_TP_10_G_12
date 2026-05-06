@@ -102,8 +102,9 @@ def afichage_editeur():
     pass
 
 def charger_niveau(skin, jeu, theme, mise_a_jour_auto=True, dessiner_perso=True):
+
     efface_tout()
- 
+
     image(400, 400, f"ressource/image/fond/theme/{theme}.png")
     image(400, 400, f"ressource/image/block/paroit/{theme}.png")
 
@@ -118,9 +119,9 @@ def charger_niveau(skin, jeu, theme, mise_a_jour_auto=True, dessiner_perso=True)
         x2, y2 = jeu.objectif[1]
         centre_x = (x1 + x2) // 2
         image(centre_x, y2, f"ressource/image/block/objectif/{theme}.png", ancrage="s")
-    
+        
     if dessiner_perso:
-        image(jeu.position_x, jeu.position_y, f"ressource/image/perso/{skin}.png")
+        perso = image(jeu.position_x, jeu.position_y, f"ressource/image/perso/{skin}.png")
     
     if mise_a_jour_auto:
         mise_a_jour()
@@ -167,7 +168,7 @@ def mouvement(jeu, skin, theme,trace):
            abs(jeu.position_x - trace[-1][0]) + abs(jeu.position_y - trace[-1][1]) > 10:
             trace.append((jeu.position_x, jeu.position_y))
     
-        charger_niveau(skin, jeu, theme, mise_a_jour_auto=False, dessiner_perso=False)
+        charger_niveau(skin, jeu, theme, mise_a_jour_auto=False, dessiner_perso=True)
         
         for (tx, ty) in trace:
             cercle(tx, ty, TAILLE_PERSO // 2, remplissage="grey",couleur="white", epaisseur=1)
@@ -179,7 +180,7 @@ def mouvement(jeu, skin, theme,trace):
         if jeu.position_y > 800:
             break
  
-        sleep(0.01)
+        sleep(0.001)
  
     STATUE_JEU = False
 
