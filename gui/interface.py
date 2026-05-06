@@ -126,11 +126,9 @@ def charger_niveau(skin, jeu, theme, mise_a_jour_auto=True, dessiner_perso=True)
         mise_a_jour()
 
 def dessiner_vecteur(jeu, vect):
-    arrivee_x = jeu.position_x + vect[0]
-    arrivee_y = jeu.position_y + vect[1]
 
-    ligne(jeu.position_x, jeu.position_y, arrivee_x, arrivee_y, couleur="red", epaisseur=2)  
-    fleche(jeu.position_x, jeu.position_y, arrivee_x, arrivee_y, couleur="red", epaisseur=2)
+    ligne(jeu.position_x, jeu.position_y, vect[0], vect[1], couleur="red", epaisseur=2)  
+    fleche(jeu.position_x, jeu.position_y, vect[0], vect[1], couleur="red", epaisseur=2)
 
 def charger_menue_skin(skin):
     efface_tout()
