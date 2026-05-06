@@ -130,6 +130,59 @@ def dessiner_vecteur(jeu, vect):
     ligne(jeu.position_x, jeu.position_y, vect[0], vect[1], couleur="red", epaisseur=2)  
     fleche(jeu.position_x, jeu.position_y, vect[0], vect[1], couleur="red", epaisseur=2)
 
+def mouvement(jeu, skin, theme,trace):
+    global STATUE_JEU
+    STATUE_JEU = True
+    
+    index_debut_trace = len(trace)
+    
+    while True:
+        nouvelle_x = jeu.position_x + jeu.vitesse_x * PAS
+        ancien_x   = jeu.position_x
+        jeu.position_x = nouvelle_x
+ 
+        if jeu.en_collision():
+            jeu.position_x = ancien_x
+            jeu.vitesse_x  = 0
+ 
+        nouvelle_y = jeu.position_y + jeu.vitesse_y * PAS
+        ancien_y   = jeu.position_y
+        jeu.position_y = nouvelle_y
+ 
+        if jeu.en_collision():
+            jeu.position_y = ancien_y
+ 
+            if jeu.vitesse_y < 0:
+                jeu.vitesse_y =  abs(jeu.vitesse_y) * 0.5
+                jeu.vitesse_x *= -0.5
+            else:
+                jeu.vitesse_y = 0
+                jeu.vitesse_x = 0
+                break
+ 
+        jeu.vitesse_x += PAS * GRAVITE[0]
+        jeu.vitesse_y += PAS * GRAVITE[1]
+    
+        if len(trace) == index_debut_trace or \
+           abs(jeu.position_x - trace[-1][0]) + abs(jeu.position_y - trace[-1][1]) > 10:
+            trace.append((jeu.position_x, jeu.position_y))
+    
+        charger_niveau(skin, jeu, theme, mise_a_jour_auto=False, dessiner_perso=False)
+        
+        for (tx, ty) in trace:
+            cercle(tx, ty, TAILLE_PERSO // 2, remplissage="grey",couleur="white", epaisseur=1)
+        
+        image(jeu.position_x, jeu.position_y, f"ressource/image/perso/{skin}.png")
+        
+        mise_a_jour()
+        
+        if jeu.position_y > 800:
+            break
+ 
+        sleep(0.01)
+ 
+    STATUE_JEU = False
+
 def charger_menue_skin(skin):
     efface_tout()
     fond = image(400, 400, "ressource/image/fond/menue.png")
