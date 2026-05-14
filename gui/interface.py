@@ -102,29 +102,29 @@ def afichage_editeur():
     pass
 
 def charger_niveau(skin, jeu, theme, mise_a_jour_auto=True, dessiner_perso=True):
+    if STATUE_JEU == False:
+        efface_tout()
 
-    efface_tout()
+        image(400, 400, f"ressource/image/fond/theme/{theme}.png")
+        image(400, 400, f"ressource/image/block/paroit/{theme}.png")
 
-    image(400, 400, f"ressource/image/fond/theme/{theme}.png")
-    image(400, 400, f"ressource/image/block/paroit/{theme}.png")
+        for bloc in jeu.lst_blocs:
+            if bloc.type not in ("mur_gauche", "mur_droit", "sol"):
+                x = bloc.coin_sup_gauche[0]
+                y = bloc.coin_sup_gauche[1]
+                image(x, y, f"ressource/image/block/flotant/{theme}.png", ancrage="nw")
 
-    for bloc in jeu.lst_blocs:
-        if bloc.type not in ("mur_gauche", "mur_droit", "sol"):
-            x = bloc.coin_sup_gauche[0]
-            y = bloc.coin_sup_gauche[1]
-            image(x, y, f"ressource/image/block/flotant/{theme}.png", ancrage="nw")
-
-    if jeu.objectif is not None:
-        x1, y1 = jeu.objectif[0]
-        x2, y2 = jeu.objectif[1]
-        centre_x = (x1 + x2) // 2
-        image(centre_x, y2, f"ressource/image/block/objectif/{theme}.png", ancrage="s")
+        if jeu.objectif is not None:
+            x1, y1 = jeu.objectif[0]
+            x2, y2 = jeu.objectif[1]
+            centre_x = (x1 + x2) // 2
+            image(centre_x, y2, f"ressource/image/block/objectif/{theme}.png", ancrage="s")
+            
+        if dessiner_perso:
+            perso = image(jeu.position_x, jeu.position_y, f"ressource/image/perso/{skin}.png")
         
-    if dessiner_perso:
-        perso = image(jeu.position_x, jeu.position_y, f"ressource/image/perso/{skin}.png")
-    
-    if mise_a_jour_auto:
-        mise_a_jour()
+        if mise_a_jour_auto:
+            mise_a_jour()
 
 def dessiner_vecteur(jeu, vect):
 
