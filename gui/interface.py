@@ -131,28 +131,49 @@ def dessiner_vecteur(jeu, vect):
     ligne(jeu.position_x, jeu.position_y, vect[0], vect[1], couleur="red", epaisseur=2)  
     fleche(jeu.position_x, jeu.position_y, vect[0], vect[1], couleur="red", epaisseur=2)
 
-def mouvement(jeu, skin, theme,trace):
+def mouvement(jeu, skin, theme, trace):
     global STATUE_JEU
     STATUE_JEU = True
     
     index_debut_trace = len(trace)
-    
+    ancienne_x = jeu.position_x
+    ancienne_y = jeu.position_y
+
+    efface_tout()
+    image(400, 400, f"ressource/image/fond/theme/{theme}.png")
+    image(400, 400, f"ressource/image/block/paroit/{theme}.png")
+
+    for bloc in jeu.lst_blocs:
+        if bloc.type not in ("mur_gauche", "mur_droit", "sol"):
+            x = bloc.coin_sup_gauche[0]
+            y = bloc.coin_sup_gauche[1]
+            image(x, y, f"ressource/image/block/flotant/{theme}.png", ancrage="nw")
+
+    if jeu.objectif is not None:
+        x1, y1 = jeu.objectif[0]
+        x2, y2 = jeu.objectif[1]
+        centre_x = (x1 + x2) // 2
+        image(centre_x, y2, f"ressource/image/block/objectif/{theme}.png", ancrage="s")
+
+    id_perso = image(jeu.position_x, jeu.position_y, f"ressource/image/perso/{skin}.png")
+    mise_a_jour()
+
     while True:
         nouvelle_x = jeu.position_x + jeu.vitesse_x * PAS
         ancien_x   = jeu.position_x
         jeu.position_x = nouvelle_x
- 
+
         if jeu.en_collision():
             jeu.position_x = ancien_x
             jeu.vitesse_x  = 0
- 
+
         nouvelle_y = jeu.position_y + jeu.vitesse_y * PAS
         ancien_y   = jeu.position_y
         jeu.position_y = nouvelle_y
- 
+
         if jeu.en_collision():
             jeu.position_y = ancien_y
- 
+
             if jeu.vitesse_y < 0:
                 jeu.vitesse_y =  abs(jeu.vitesse_y) * 0.5
                 jeu.vitesse_x *= -0.5
@@ -160,28 +181,27 @@ def mouvement(jeu, skin, theme,trace):
                 jeu.vitesse_y = 0
                 jeu.vitesse_x = 0
                 break
- 
+
         jeu.vitesse_x += PAS * GRAVITE[0]
         jeu.vitesse_y += PAS * GRAVITE[1]
-    
+
         if len(trace) == index_debut_trace or \
            abs(jeu.position_x - trace[-1][0]) + abs(jeu.position_y - trace[-1][1]) > 10:
             trace.append((jeu.position_x, jeu.position_y))
-    
-        charger_niveau(skin, jeu, theme, mise_a_jour_auto=False, dessiner_perso=True)
-        
-        for (tx, ty) in trace:
-            cercle(tx, ty, TAILLE_PERSO // 2, remplissage="grey",couleur="white", epaisseur=1)
-        
-        image(jeu.position_x, jeu.position_y, f"ressource/image/perso/{skin}.png")
-        
+            cercle(ancienne_x, ancienne_y, 5, remplissage="white", couleur="black")
+
+        efface(id_perso)
+        id_perso = image(jeu.position_x, jeu.position_y, f"ressource/image/perso/{skin}.png")
+        ancienne_x = jeu.position_x
+        ancienne_y = jeu.position_y
+
         mise_a_jour()
-        
+
         if jeu.position_y > 800:
             break
- 
+
         sleep(0.001)
- 
+
     STATUE_JEU = False
 
 def charger_menue_skin(skin):
