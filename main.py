@@ -36,6 +36,8 @@ if __name__ == "__main__":
             if etat.menu == "JEU" and not STATUE_JEU:
                 nv_skin = etat.skin + "_j"
                 mouvement(mon_jeu,nv_skin,etat.theme,etat.trace)
+                mon_jeu.nb_jump += 1
+                print(mon_jeu.nb_jump, "SCORE_DEBUG")
         
         if type_ev(evenement) == "Touche" :
             ev = donne_ev()

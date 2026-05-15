@@ -54,17 +54,46 @@ class Game:
 
             self.vitesse_x = u_x*ratio
             self.vitesse_y = u_y*ratio
-
-            print(self.vitesse_x,self.vitesse_y)
+            
         else:
             ratio = 1
             self.vitesse_x = u_x
             self.vitesse_y = u_y
         u_x= u_x*ratio + self.position_x
         u_y= u_y*ratio + self.position_y
-
+        print(self.vitesse_x,self.vitesse_y)
         return (int(u_x),int(u_y))
-        
+    
+    def pas(self):
+        x_arrive = self.position_x + self.vitesse_x * PAS
+        x_depart   = self.position_x
+        self.position_x = x_arrive
+
+        if self.en_collision():
+            #Colision sur le côté
+            self.position_x = x_depart
+            self.vitesse_x  = 0
+
+        y_arrive = self.position_y + self.vitesse_y * PAS
+        y_depart   = self.position_y
+        self.position_y = y_arrive
+
+        if self.en_collision():
+            #Colision sur le bas / Haut
+            self.position_y = y_depart
+
+            if self.vitesse_y < 0:
+                # Colision sur le bas
+                self.vitesse_y =  abs(self.vitesse_y) * 0.5
+                self.vitesse_x *= -0.5
+            else:
+                # Joueur posé sur un bloc
+                self.vitesse_y = 0
+                self.vitesse_x = 0
+                return "Finish"
+
+        self.vitesse_x += PAS * GRAVITE[0]
+        self.vitesse_y += PAS * GRAVITE[1]
 
     def detection_colision(self,coin_sup_gauche,coin_inf_droit):
         x_max = coin_inf_droit[0]

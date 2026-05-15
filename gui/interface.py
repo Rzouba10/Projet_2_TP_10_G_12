@@ -163,31 +163,9 @@ def mouvement(jeu, skin, theme, trace):
     # Moteur physique
 
     while True:
-        nouvelle_x = jeu.position_x + jeu.vitesse_x * PAS
-        ancien_x   = jeu.position_x
-        jeu.position_x = nouvelle_x
 
-        if jeu.en_collision():
-            jeu.position_x = ancien_x
-            jeu.vitesse_x  = 0
-
-        nouvelle_y = jeu.position_y + jeu.vitesse_y * PAS
-        ancien_y   = jeu.position_y
-        jeu.position_y = nouvelle_y
-
-        if jeu.en_collision():
-            jeu.position_y = ancien_y
-
-            if jeu.vitesse_y < 0:
-                jeu.vitesse_y =  abs(jeu.vitesse_y) * 0.5
-                jeu.vitesse_x *= -0.5
-            else:
-                jeu.vitesse_y = 0
-                jeu.vitesse_x = 0
-                break
-
-        jeu.vitesse_x += PAS * GRAVITE[0]
-        jeu.vitesse_y += PAS * GRAVITE[1]
+        if jeu.pas() == "Finish":
+            break
 
         if len(trace) == index_debut_trace or \
            abs(jeu.position_x - trace[-1][0]) + abs(jeu.position_y - trace[-1][1]) > 10:
