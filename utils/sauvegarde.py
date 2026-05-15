@@ -1,53 +1,43 @@
 from utils.constantes import *
 import os
 
-def sauvegarder_niveau(etat_editeur):
+def sauvegarder_niveau(etat_editeur, theme_choisi):
+    fichiers_txt = [f for f in os.listdir("niveaux/creation") if f.endswith(".txt")]
+    numero = len(fichiers_txt) + 1
+    chemin_fichier = f"niveaux/creation/nv_{numero}.txt"
 
-    fichiers_existants = os.listdir("niveaux/creation")
-    
-    fichiers_txt = []
-    for nom_fichier in fichiers_existants:
-        if nom_fichier.endswith(".txt"):
-            fichiers_txt.append(nom_fichier)
-    
-    numero_nouveau_fichier = len(fichiers_txt) + 1
-    
-    chemin_fichier = f"niveaux/creation/nv_{numero_nouveau_fichier}.txt"
-    
-    fichier = open(chemin_fichier, "w")
-    
+    with open(chemin_fichier, "w") as fichier:
 
-    if etat_editeur["depart"] is not None:
-        depart_x, depart_y = etat_editeur["depart"]
-        fichier.write(f"{depart_x},{depart_y}\n")
-    
-    if etat_editeur["objectif"] is not None:
-        objectif = etat_editeur["objectif"]
-        
-        obj_x1, obj_y1 = objectif["coin1"]
-        obj_x2, obj_y2 = objectif["coin2"]
-        
-        fichier.write(f"{obj_x1},{obj_y1},{obj_x2},{obj_y2}\n")
-    
-    for bloc in etat_editeur["blocs"]:
-        
-        if "x" in bloc:
-            centre_x = bloc["x"]
-            centre_y = bloc["y"]
-            
-            bloc_x1 = centre_x - TAILLE_BLOC_L // 2
-            bloc_y1 = centre_y - TAILLE_BLOC_H // 2
-            bloc_x2 = centre_x + TAILLE_BLOC_L // 2 
-            bloc_y2 = centre_y + TAILLE_BLOC_H // 2 
-            
+        if etat_editeur["depart"] is not None:
+            dx, dy = etat_editeur["depart"]
+            fichier.write(f"{dx},{dy}\n")
         else:
-            bloc_x1, bloc_y1 = bloc["coin1"]
-            bloc_x2, bloc_y2 = bloc["coin2"]
+            fichier.write("0,0\n")
+
+        if etat_editeur["objectif"] is not None:
+            obj = etat_editeur["objectif"]
+            x1, y1 = obj["coin1"]
+            x2, y2 = obj["coin2"]
+            fichier.write(f"{x1},{y1},{x2},{y2}\n")
+        else:
+            fichier.write("0,0,0,0\n")
         
-        type_bloc = bloc["type"]
-        
-        fichier.write(f"{bloc_x1},{bloc_y1},{bloc_x2},{bloc_y2},{type_bloc}\n")
-    
-    fichier.close()
-    
+        fichier.write(f"{theme_choisi}\n")
+
+        for bloc in etat_editeur["blocs"]:
+            if "x" in bloc:
+                cx, cy = bloc["x"], bloc["y"]
+                x1 = cx - TAILLE_BLOC_L // 2
+                y1 = cy - TAILLE_BLOC_H // 2
+                x2 = cx + TAILLE_BLOC_L // 2
+                y2 = cy + TAILLE_BLOC_H // 2
+                theme = bloc.get("theme", "custom")
+            else:
+                x1, y1 = bloc["coin1"]
+                x2, y2 = bloc["coin2"]
+                theme = "custom"
+
+            type_bloc = bloc["type"]
+            fichier.write(f"{x1},{y1},{x2},{y2},{type_bloc},{theme}\n")
+
     return chemin_fichier

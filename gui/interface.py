@@ -39,7 +39,7 @@ def page_niveaux(page=0):
             liste_fichiers.append(fichier)
     liste_fichiers.sort()
 
-    nb_pages = len(liste_fichiers) // 5
+    nb_pages = len(liste_fichiers) // 5 + 1
     if len(liste_fichiers) % 5 != 0:
         nb_pages += 1
     if nb_pages == 0:
@@ -79,6 +79,46 @@ def page_niveaux(page=0):
     
     return {"page": page, "nb_pages": nb_pages, "tranche": tranche}
 
+def page_niveaux_creation(page=0):
+    liste_fichiers = []
+    for fichier in os.listdir("niveaux/creation"):
+        if fichier.endswith(".txt"):
+            liste_fichiers.append(fichier)
+    liste_fichiers.sort()
+
+    nb_pages = max(1, -(-len(liste_fichiers) // 5))  # division arrondie au supérieur
+
+    page = max(0, min(page, nb_pages - 1))
+
+    indice_debut = page * 5
+    tranche = liste_fichiers[indice_debut:indice_debut + 5]
+
+    efface_tout()
+    image(400, 400, "ressource/image/fond/menue.png")
+    image(400, 400, "ressource/image/fond/creation.png")   # même fond que l'éditeur
+    image(400, 770, "ressource/image/fond/bouton_retour.png")
+
+    position_y = 240
+    for index in range(5):
+        if index < len(tranche):
+            nom_niveau = tranche[index].replace(".txt", "")
+            texte(150, position_y, nom_niveau, couleur="black", taille=20, ancrage="w")
+            image(535, position_y, "ressource/image/bouton/jouer.png")  # ton image bouton jouer
+        position_y += 79
+
+    if page > 0:
+        image(300, 720, "ressource/image/bouton/fleche_g.png")
+    if page < nb_pages - 1:
+        image(500, 720, "ressource/image/bouton/fleche_d.png")
+
+    mise_a_jour()
+
+    return {"page": page, "nb_pages": nb_pages, "tranche": tranche}
+
+def page_choix_theme_sauvegarde():
+    image(500, 400, "ressource/image/fond/editeur_theme.png")
+    mise_a_jour()
+
 def afichage_editeur():
     
     efface_tout()
@@ -102,35 +142,129 @@ def afichage_editeur():
     pass
 
 def charger_niveau(skin, jeu, theme, mise_a_jour_auto=True, dessiner_perso=True):
+    if STATUE_JEU == False:
+        efface_tout()
+
+        if theme and theme != "none":
+            image(400, 400, f"ressource/image/fond/theme/{theme}.png")
+            image(400, 400, f"ressource/image/block/paroit/{theme}.png")
+        else:
+            rectangle(0, 0, 800, 800, remplissage="grey")
+            rectangle(MUR_GAUCHE[0][0], MUR_GAUCHE[0][1], MUR_GAUCHE[1][0], MUR_GAUCHE[1][1], remplissage="green")
+            rectangle(MUR_DROIT[0][0],  MUR_DROIT[0][1],  MUR_DROIT[1][0],  MUR_DROIT[1][1],  remplissage="green")
+            rectangle(SOL[0][0],        SOL[0][1],         SOL[1][0],        SOL[1][1],         remplissage="green")
+
+        for bloc in jeu.lst_blocs:
+            if bloc.type not in ("mur_gauche", "mur_droit", "sol"):
+                x1, y1 = bloc.coin_sup_gauche
+                x2, y2 = bloc.coin_inf_droit
+
+                if bloc.style == "custom":
+                    couleur = COULEURS_BLOCS.get(bloc.type, "green")
+                    rectangle(x1, y1, x2, y2, remplissage=couleur, couleur="black")
+                else:
+                    theme_bloc = bloc.style
+
+                    if bloc.type in NOMS_BLOCS_SPECIAUX:
+                        chemin = f"ressource/image/block/special/{theme_bloc}/{NOMS_BLOCS_SPECIAUX[bloc.type]}"
+                    else:
+                        chemin = f"ressource/image/block/flotant/{theme_bloc}.png"
+
+                    image(x1, y1, chemin, ancrage="nw")
+
+        if jeu.objectif is not None:
+            x1, y1 = jeu.objectif[0]
+            x2, y2 = jeu.objectif[1]
+            centre_x = (x1 + x2) // 2
+            if theme and theme != "none":
+                centre_x = (x1 + x2) // 2
+                image(centre_x, y2, f"ressource/image/block/objectif/{theme}.png", ancrage="s")
+            else:
+                rectangle(x1, y1, x2, y2, couleur="red", epaisseur=2)
+                
+        if dessiner_perso:
+            perso = image(jeu.position_x, jeu.position_y, f"ressource/image/perso/{skin}.png")
+        
+        if mise_a_jour_auto:
+            mise_a_jour()
+
+def dessiner_vecteur(jeu, vect):
+
+    ligne(jeu.position_x, jeu.position_y, vect[0], vect[1], couleur="red", epaisseur=2)  
+    fleche(jeu.position_x, jeu.position_y, vect[0], vect[1], couleur="red", epaisseur=2)
+
+def mouvement(jeu, skin, theme, trace):
+    global STATUE_JEU
+    STATUE_JEU = True
+    
+    index_debut_trace = len(trace)
+    ancienne_x = jeu.position_x
+    ancienne_y = jeu.position_y
+
     efface_tout()
- 
-    image(400, 400, f"ressource/image/fond/theme/{theme}.png")
-    image(400, 400, f"ressource/image/block/paroit/{theme}.png")
+    if theme and theme != "none":
+            image(400, 400, f"ressource/image/fond/theme/{theme}.png")
+            image(400, 400, f"ressource/image/block/paroit/{theme}.png")
+    else:
+        rectangle(0, 0, 800, 800, remplissage="grey")
+        rectangle(MUR_GAUCHE[0][0], MUR_GAUCHE[0][1], MUR_GAUCHE[1][0], MUR_GAUCHE[1][1], remplissage="green")
+        rectangle(MUR_DROIT[0][0],  MUR_DROIT[0][1],  MUR_DROIT[1][0],  MUR_DROIT[1][1],  remplissage="green")
+        rectangle(SOL[0][0],        SOL[0][1],         SOL[1][0],        SOL[1][1],         remplissage="green")
 
     for bloc in jeu.lst_blocs:
-        if bloc.type not in ("mur_gauche", "mur_droit", "sol"):
-            x = bloc.coin_sup_gauche[0]
-            y = bloc.coin_sup_gauche[1]
-            image(x, y, f"ressource/image/block/flotant/{theme}.png", ancrage="nw")
+       if bloc.type not in ("mur_gauche", "mur_droit", "sol"):
+                x1, y1 = bloc.coin_sup_gauche
+                x2, y2 = bloc.coin_inf_droit
+
+                if bloc.style == "custom":
+                    couleur = COULEURS_BLOCS.get(bloc.type, "green")
+                    rectangle(x1, y1, x2, y2, remplissage=couleur, couleur="black")
+                else:
+                    theme_bloc = bloc.style
+
+                    if bloc.type in NOMS_BLOCS_SPECIAUX:
+                        chemin = f"ressource/image/block/special/{theme_bloc}/{NOMS_BLOCS_SPECIAUX[bloc.type]}"
+                    else:
+                        chemin = f"ressource/image/block/flotant/{theme_bloc}.png"
+
+                    image(x1, y1, chemin, ancrage="nw")
 
     if jeu.objectif is not None:
         x1, y1 = jeu.objectif[0]
         x2, y2 = jeu.objectif[1]
         centre_x = (x1 + x2) // 2
-        image(centre_x, y2, f"ressource/image/block/objectif/{theme}.png", ancrage="s")
-    
-    if dessiner_perso:
-        image(jeu.position_x, jeu.position_y, f"ressource/image/perso/{skin}.png")
-    
-    if mise_a_jour_auto:
+        if theme and theme != "none":
+            centre_x = (x1 + x2) // 2
+            image(centre_x, y2, f"ressource/image/block/objectif/{theme}.png", ancrage="s")
+        else:
+            rectangle(x1, y1, x2, y2, couleur="red", epaisseur=2)
+
+    id_perso = image(jeu.position_x, jeu.position_y, f"ressource/image/perso/{skin}.png")
+    mise_a_jour()
+
+    while True:
+
+        if jeu.pas() == "Finish":
+            break
+
+        if len(trace) == index_debut_trace or \
+           abs(jeu.position_x - trace[-1][0]) + abs(jeu.position_y - trace[-1][1]) > 10:
+            trace.append((jeu.position_x, jeu.position_y))
+            cercle(ancienne_x, ancienne_y, 5, remplissage="white", couleur="black")
+
+        efface(id_perso)
+        id_perso = image(jeu.position_x, jeu.position_y, f"ressource/image/perso/{skin}.png")
+        ancienne_x = jeu.position_x
+        ancienne_y = jeu.position_y
+
         mise_a_jour()
 
-def dessiner_vecteur(jeu, vect):
-    arrivee_x = jeu.position_x + vect[0]
-    arrivee_y = jeu.position_y + vect[1]
+        if jeu.position_y > 800:
+            break
 
-    ligne(jeu.position_x, jeu.position_y, arrivee_x, arrivee_y, couleur="red", epaisseur=2)  
-    fleche(jeu.position_x, jeu.position_y, arrivee_x, arrivee_y, couleur="red", epaisseur=2)
+        sleep(0.001)
+
+    STATUE_JEU = False
 
 def charger_menue_skin(skin):
     efface_tout()
@@ -162,8 +296,16 @@ def charger_pause_save(evenement):
     if 250 <= x <= 540 and 460 <= y <= 530:
          pass
 
-def retour_arriere():
-    pass
+def retour_arriere(jeu, skin, theme, historique_departs):
+    if not historique_departs:
+        return
+
+    x, y = historique_departs.pop()
+
+    jeu.position_x = x
+    jeu.position_y = y
+
+    charger_niveau(skin, jeu, theme)
 
 def trouver_bloc(x, y, etat_editeur):
     for i, b in enumerate(etat_editeur["blocs"]):

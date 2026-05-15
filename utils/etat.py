@@ -8,6 +8,7 @@ class EtatJeu:
         self.menue = None
         
         self.trace = []
+        self.historique_departs = []
         
         self.creation = []
         

@@ -1,0 +1,8 @@
+257,311
+290,286,321,330
+none
+474,545,624,585,normal,desert
+163,602,313,642,normal,desert
+223,324,373,364,normal,desert
+487,230,586,337,normal,custom
+163,495,341,531,normal,custom

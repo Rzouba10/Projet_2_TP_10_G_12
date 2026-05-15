@@ -1,0 +1,12 @@
+377,477
+387,47,495,100
+espace
+219,281,296,479,normal,none
+573,343,585,449,normal,none
+421,198,444,459,colant,none
+358,577,508,617,colant,espace
+510,145,660,185,colant,espace
+136,142,286,182,trampoline,espace
+67,231,217,271,trampoline,espace
+535,508,685,548,trampoline,foret
+494,260,644,300,trampoline,foret

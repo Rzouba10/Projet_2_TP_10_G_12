@@ -35,6 +35,10 @@ if __name__ == "__main__":
 
             if etat.menu == "JEU" and not STATUE_JEU:
                 nv_skin = etat.skin + "_j"
+                etat.historique_departs.append((mon_jeu.position_x, mon_jeu.position_y))
+                mouvement(mon_jeu,nv_skin,etat.theme,etat.trace)
+                mon_jeu.nb_jump += 1
+                print(mon_jeu.nb_jump, "SCORE_DEBUG")
         
         if type_ev(evenement) == "Touche" :
             ev = donne_ev()
@@ -43,7 +47,11 @@ if __name__ == "__main__":
             if t == "Escape" and etat.menu == "JEU":
                 etat.menue = image(400, 400, "ressource/image/fond/pause.png")
                 etat.menu = "PAUSE"
-    
+
+            if t == "z" and etat.menu == "JEU" and not STATUE_JEU:
+                nv_skin = f"{etat.skin}_j"
+                retour_arriere(mon_jeu, nv_skin, etat.theme, etat.historique_departs)
+            
     print(point)
     
     ferme_fenetre()
