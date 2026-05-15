@@ -54,8 +54,12 @@ class Game:
 
             self.vitesse_x = u_x*ratio
             self.vitesse_y = u_y*ratio
+
+            print(self.vitesse_x,self.vitesse_y)
         else:
             ratio = 1
+            self.vitesse_x = u_x
+            self.vitesse_y = u_y
         u_x= u_x*ratio + self.position_x
         u_y= u_y*ratio + self.position_y
 
@@ -93,8 +97,11 @@ class Bloc:
     def __str__(self):
         return f'{self.coin_sup_gauche} {self.coin_inf_droit} {self.type}'
         
+"""
+===== FICHIERS DE TEST =====
 VMAX = 50
 jeu = Game()
 jeu.ranger_donnees("niveaux/desert/nv1.txt")
 print(jeu.en_collision())
 print(jeu.lst_blocs[0])
+"""

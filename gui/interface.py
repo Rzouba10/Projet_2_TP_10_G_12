@@ -135,6 +135,8 @@ def mouvement(jeu, skin, theme, trace):
     global STATUE_JEU
     STATUE_JEU = True
     
+    # Chargement des ressources (Images etc... pour le niveau)
+
     index_debut_trace = len(trace)
     ancienne_x = jeu.position_x
     ancienne_y = jeu.position_y
@@ -157,6 +159,8 @@ def mouvement(jeu, skin, theme, trace):
 
     id_perso = image(jeu.position_x, jeu.position_y, f"ressource/image/perso/{skin}.png")
     mise_a_jour()
+
+    # Moteur physique
 
     while True:
         nouvelle_x = jeu.position_x + jeu.vitesse_x * PAS
