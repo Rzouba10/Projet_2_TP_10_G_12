@@ -1,6 +1,6 @@
 100,750
 520,570,618,599
-120,710,218,739,amorti,foret
+120,710,218,739,colant,custom
 190,685,288,714,normal,custom
 260,660,358,689,glace,custom
 330,635,428,664,normal,foret
