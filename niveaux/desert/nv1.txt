@@ -1,5 +1,6 @@
 100,750
 680,100,780,135
+desert
 62,650,162,685,normal,foret
 60,600,160,635,normal,foret
 125,550,225,585,normal,foret
