@@ -42,7 +42,7 @@ class Game:
         for i in range(2,len(donnes)):
             temp = donnes[i].split(",")
             self.lst_blocs.append(
-                Bloc((int(temp[0]),int(temp[1])),(int(temp[2]),int(temp[3])),temp[4])
+                Bloc((int(temp[0]),int(temp[1])),(int(temp[2]),int(temp[3])),temp[4],temp[5])
             )
     
     def clic_vers_vitesse(self, clic):
@@ -118,19 +118,11 @@ class Game:
 
 
 class Bloc:
-    def __init__(self,coin_sup_gauche,coin_inf_droit,type):
+    def __init__(self,coin_sup_gauche,coin_inf_droit,type,style="foret"):
         self.coin_sup_gauche = coin_sup_gauche
         self.coin_inf_droit = coin_inf_droit
         self.type = type
+        self.style = style
 
     def __str__(self):
         return f'{self.coin_sup_gauche} {self.coin_inf_droit} {self.type}'
-        
-"""
-===== FICHIERS DE TEST =====
-VMAX = 50
-jeu = Game()
-jeu.ranger_donnees("niveaux/desert/nv1.txt")
-print(jeu.en_collision())
-print(jeu.lst_blocs[0])
-"""

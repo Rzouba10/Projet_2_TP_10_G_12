@@ -112,7 +112,12 @@ def charger_niveau(skin, jeu, theme, mise_a_jour_auto=True, dessiner_perso=True)
             if bloc.type not in ("mur_gauche", "mur_droit", "sol"):
                 x = bloc.coin_sup_gauche[0]
                 y = bloc.coin_sup_gauche[1]
-                image(x, y, f"ressource/image/block/flotant/{theme}.png", ancrage="nw")
+                if bloc.type == "normal" and bloc.style != "custom":
+                    image(x, y, f"ressource/image/block/flotant/{bloc.style}.png", ancrage="nw")
+                elif bloc.style == "custom":
+                    rectangle(bloc.coin_sup_gauche[0],bloc.coin_sup_gauche[1],bloc.coin_inf_droit[0],bloc.coin_inf_droit[1],remplissage=COULEURS_BLOCS[bloc.type])
+                else:
+                    image(x, y, f"ressource/image/block/special/{bloc.style}/{bloc.type}.png", ancrage="nw")
 
         if jeu.objectif is not None:
             x1, y1 = jeu.objectif[0]
@@ -149,7 +154,12 @@ def mouvement(jeu, skin, theme, trace):
         if bloc.type not in ("mur_gauche", "mur_droit", "sol"):
             x = bloc.coin_sup_gauche[0]
             y = bloc.coin_sup_gauche[1]
-            image(x, y, f"ressource/image/block/flotant/{theme}.png", ancrage="nw")
+            if bloc.type == "normal" and bloc.style != "custom":
+                image(x, y, f"ressource/image/block/flotant/{bloc.style}.png", ancrage="nw")
+            elif bloc.style == "custom":
+                rectangle(bloc.coin_sup_gauche[0],bloc.coin_sup_gauche[1],bloc.coin_inf_droit[0],bloc.coin_inf_droit[1],remplissage=COULEURS_BLOCS[bloc.type])
+            else:
+                image(x, y, f"ressource/image/block/special/{bloc.style}/{bloc.type}.png", ancrage="nw")
 
     if jeu.objectif is not None:
         x1, y1 = jeu.objectif[0]

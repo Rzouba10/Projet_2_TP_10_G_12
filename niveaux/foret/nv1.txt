@@ -1,9 +1,9 @@
 100,750
 520,570,618,599
-120,710,218,739,obstacle
-190,685,288,714,obstacle
-260,660,358,689,obstacle
-330,635,428,664,obstacle
-400,610,498,639,obstacle
-470,585,568,614,obstacle
-520,550,618,579,obstacle
+120,710,218,739,amorti,foret
+190,685,288,714,normal,custom
+260,660,358,689,glace,custom
+330,635,428,664,normal,foret
+400,610,498,639,normal,foret
+470,585,568,614,normal,foret
+520,550,618,579,normal,foret
