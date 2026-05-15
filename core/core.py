@@ -38,8 +38,10 @@ class Game:
 
         y = donnes[1].split(",")
         self.objectif = [(int(y[0]),int(y[1])),(int(y[2]),int(y[3]))]
+        
+        self.theme = donnes[2]
 
-        for i in range(2,len(donnes)):
+        for i in range(3,len(donnes)):
             temp = donnes[i].split(",")
             self.lst_blocs.append(
                 Bloc((int(temp[0]),int(temp[1])),(int(temp[2]),int(temp[3])),temp[4],temp[5])

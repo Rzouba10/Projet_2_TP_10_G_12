@@ -216,12 +216,12 @@ def clic_creation(x, y, mon_jeu, etat):
             if 503 <= x <= 567:
                 chemin = f"niveaux/creation/{nom_fichier}"
                 etat.niveau = 0         
-                etat.theme =  mon_jeu.style
+                etat.theme =  mon_jeu.theme  
                 nv_skin = f"{etat.skin}_j"
                 etat.trace.clear()
                 mon_jeu.vider()
                 mon_jeu.ranger_donnees(chemin)
-                etat.theme = mon_jeu.style
+                etat.theme = mon_jeu.theme  
                 etat.menu = "JEU"
                 charger_niveau(nv_skin, mon_jeu, etat.theme)
                 return etat
