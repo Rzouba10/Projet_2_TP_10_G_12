@@ -1,5 +1,3 @@
-# Dans un nouveau fichier : core/solveur.py
-
 from utils.structure import *
 from utils.constantes import *
 from requirement.fltk import *

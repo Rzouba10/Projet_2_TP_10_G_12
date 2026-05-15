@@ -69,31 +69,48 @@ class Game:
         x_depart   = self.position_x
         self.position_x = x_arrive
 
-        if self.en_collision():
+        type_colision = self.en_collision()
+        print(type_colision)
+
+        if type_colision != None:
             #Colision sur le côté
-            self.position_x = x_depart
-            self.vitesse_x  = 0
+            if type_colision == "colant":
+                self.vitesse_y = 0
+                self.vitesse_x = 0
+                return "Finish"
+            else:
+                self.position_x = x_depart
+                self.vitesse_x  = 0
 
         y_arrive = self.position_y + self.vitesse_y * PAS
         y_depart   = self.position_y
         self.position_y = y_arrive
 
-        if self.en_collision():
+        type_colision = self.en_collision()
+
+        if type_colision != None:
             #Colision sur le bas / Haut
             self.position_y = y_depart
 
-            if self.vitesse_y < 0:
-                # Colision sur le bas
-                self.vitesse_y =  abs(self.vitesse_y) * 0.5
-                self.vitesse_x *= -0.5
-            else:
-                # Joueur posé sur un bloc
+            if type_colision == "colant":
                 self.vitesse_y = 0
                 self.vitesse_x = 0
                 return "Finish"
+            else:
+
+                if self.vitesse_y < 0:
+                    # Colision sur le bas
+                    self.vitesse_y =  abs(self.vitesse_y) * 0.5
+                    self.vitesse_x *= -0.5
+                else:
+                    # Joueur posé sur un bloc
+                    self.vitesse_y = 0
+                    self.vitesse_x = 0
+                    return "Finish"
 
         self.vitesse_x += PAS * GRAVITE[0]
         self.vitesse_y += PAS * GRAVITE[1]
+
 
     def detection_colision(self,coin_sup_gauche,coin_inf_droit):
         x_max = coin_inf_droit[0]
@@ -108,10 +125,10 @@ class Game:
     def en_collision(self):
         for bloc in self.lst_blocs:
             if self.detection_colision(bloc.coin_sup_gauche,bloc.coin_inf_droit):
-                return True
+                return bloc.type
         if self.detection_colision(SOL[0],SOL[1]) or self.detection_colision(MUR_GAUCHE[0],MUR_GAUCHE[1]) or self.detection_colision(MUR_DROIT[0],MUR_DROIT[1]):
-            return True
-        return False
+            return "normal"
+        return None
 
     def is_winnable(self):
         return self.en_collision(self.objectif[0],self.objectif[1])
