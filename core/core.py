@@ -11,6 +11,7 @@ class Game:
         self.nb_jump = 0
         self.objectif = None
         self.lst_blocs = list()
+        self.theme = ""
 
     def vider(self):
         self.position_x = 0
@@ -20,6 +21,7 @@ class Game:
         self.nb_jump = 0
         self.objectif = None
         self.lst_blocs = list()
+        self.theme = ""
         
     def lire_fichier_niveau(self,fichier):
         lignes = list()
