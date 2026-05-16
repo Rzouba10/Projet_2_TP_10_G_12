@@ -334,14 +334,16 @@ def mouvement(jeu, skin, theme, trace):
     
     while True:
 
-        if jeu.pas() == "Finish":
-            if jeu.objectif is not None:
-                ox1, oy1 = jeu.objectif[0]
-                ox2, oy2 = jeu.objectif[1]
-                if ox1 <= jeu.position_x <= ox2 and oy1 <= jeu.position_y <= oy2:
-                    resultat_final = "GAGNE"
+        if jeu.is_winnable():
+            efface(id_perso)
+            image(jeu.position_x, jeu.position_y, f"ressource/image/perso/{skin}.png")
+            mise_a_jour()
+            resultat_final = "GAGNE"
             break
-
+        
+        if jeu.pas() == "Finish":
+            break
+        
         if len(trace) == index_debut_trace or \
            abs(jeu.position_x - trace[-1][0]) + abs(jeu.position_y - trace[-1][1]) > 10:
             trace.append((jeu.position_x, jeu.position_y))

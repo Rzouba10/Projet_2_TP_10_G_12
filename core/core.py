@@ -161,7 +161,7 @@ class Game:
         return None
 
     def is_winnable(self):
-        return self.en_collision(self.objectif[0],self.objectif[1])
+        return self.detection_colision(self.objectif[0],self.objectif[1])
 
 
 class Bloc:
