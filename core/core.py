@@ -74,7 +74,6 @@ class Game:
         self.position_x = x_arrive
 
         type_colision = self.en_collision()
-        print(type_colision)
 
         if type_colision != None:
             #Colision sur le côté
@@ -107,10 +106,19 @@ class Game:
                     self.vitesse_y =  abs(self.vitesse_y) * 0.5
                     self.vitesse_x *= -0.5
                 else:
-                    # Joueur posé sur un bloc
-                    self.vitesse_y = 0
-                    self.vitesse_x = 0
-                    return "Finish"
+                    if type_colision == "glace":
+                        self.vitesse_y = 0
+                        if self.vitesse_x > 0.5 or self.vitesse_x < -0.5:
+                            self.vitesse_x *=0.9
+                            print(self.vitesse_x)
+                        else:
+                            return "Finish"
+        
+                    else:
+                        # Joueur posé sur un bloc
+                        self.vitesse_y = 0
+                        self.vitesse_x = 0
+                        return "Finish"
 
         self.vitesse_x += PAS * GRAVITE[0]
         self.vitesse_y += PAS * GRAVITE[1]
