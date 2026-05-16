@@ -123,11 +123,14 @@ class Game:
                         self.vitesse_y = 0
                         if self.vitesse_x > 0.5 or self.vitesse_x < -0.5:
                             self.vitesse_x *=0.9
-                            print(self.vitesse_x)
                         else:
                             return "Finish"
                     elif type_colision == "glace" and self.vitesse_x != 0:
                         self.vitesse_y = 0
+                    elif type_colision == "trampoline" and self.vitesse_y > 5:
+                        print(self.vitesse_y)
+                        self.vitesse_y = -self.vitesse_y+5
+                        
         
                     else:
                         # Joueur posé sur un bloc
