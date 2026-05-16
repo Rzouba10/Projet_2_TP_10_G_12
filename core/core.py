@@ -69,30 +69,42 @@ class Game:
         return (int(u_x),int(u_y))
     
     def pas(self):
+        # ==========================================================
+
         x_arrive = self.position_x + self.vitesse_x * PAS
         x_depart   = self.position_x
         self.position_x = x_arrive
 
-        type_colision = self.en_collision()
+        # ============================= Colision sur le côté =============================
 
+        type_colision = self.en_collision()
+        
         if type_colision != None:
-            #Colision sur le côté
+            
             if type_colision == "colant":
                 self.vitesse_y = 0
                 self.vitesse_x = 0
+                self.position_x = x_depart
                 return "Finish"
+            elif type_colision == "elastique":
+                self.position_x = x_depart
+                self.vitesse_x = -self.vitesse_x
+                
             else:
                 self.position_x = x_depart
                 self.vitesse_x  = 0
+
+        # ==========================================================
 
         y_arrive = self.position_y + self.vitesse_y * PAS
         y_depart   = self.position_y
         self.position_y = y_arrive
 
+        # ============================= Colision sur le bas / Haut =============================
+
         type_colision = self.en_collision()
 
         if type_colision != None:
-            #Colision sur le bas / Haut
             self.position_y = y_depart
 
             if type_colision == "colant":
@@ -106,6 +118,7 @@ class Game:
                     self.vitesse_y =  abs(self.vitesse_y) * 0.5
                     self.vitesse_x *= -0.5
                 else:
+                    # Colisions sur le haut
                     if type_colision == "derape":
                         self.vitesse_y = 0
                         if self.vitesse_x > 0.5 or self.vitesse_x < -0.5:
