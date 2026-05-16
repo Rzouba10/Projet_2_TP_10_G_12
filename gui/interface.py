@@ -141,6 +141,78 @@ def afichage_editeur():
     
     pass
 
+def charger_editeur_depuis_fichier(chemin):
+    editeur = {
+        "blocs": [],
+        "objectif": None,
+        "depart": None,
+        "mode": "AJOUTER",
+        "type_bloc": "normal",
+        "clics": [],
+        "theme": None,
+    }
+
+    f = open(chemin, "r", encoding="utf-8")
+    lignes = []
+    for ligne in f:
+        lignes.append(ligne.rstrip())
+    f.close()
+
+    dep = lignes[0].split(",")
+    editeur["depart"] = (int(dep[0]), int(dep[1]))
+
+    obj = lignes[1].split(",")
+    editeur["objectif"] = {
+        "coin1": (int(obj[0]), int(obj[1])),
+        "coin2": (int(obj[2]), int(obj[3])),
+    }
+
+    editeur["theme"] = lignes[2]
+    if editeur["theme"] in ("none", "None", ""):
+        editeur["theme"] = None
+
+    theme = editeur["theme"]
+    for i in range(3, len(lignes)):
+        if lignes[i] == "":
+            continue
+        parts = lignes[i].split(",")
+        x1, y1, x2, y2 = int(parts[0]), int(parts[1]), int(parts[2]), int(parts[3])
+        type_bloc = parts[4]
+        theme_bloc = parts[5]
+
+        if theme_bloc not in ("custom", "none", ""):
+            cx = (x1 + x2) // 2
+            cy = (y1 + y2) // 2
+            tl = x2 - x1
+            th = y2 - y1
+            suffixe = "_v" if th > tl else ""
+
+            if type_bloc in NOMS_BLOCS_SPECIAUX:
+                nom_fichier_img = NOMS_BLOCS_SPECIAUX[type_bloc]
+                if suffixe:
+                    nom_base, ext = nom_fichier_img.rsplit(".", 1)
+                    nom_fichier_img = f"{nom_base}{suffixe}.{ext}"
+                chemin_img = f"ressource/image/block/special/{theme_bloc}/{nom_fichier_img}"
+            else:
+                chemin_img = f"ressource/image/block/flotant/{theme_bloc}{suffixe}.png"
+
+            editeur["blocs"].append({
+                "x": cx, "y": cy,
+                "type": type_bloc,
+                "chemin": chemin_img,
+                "theme": theme_bloc,
+                "taille_l": tl,
+                "taille_h": th,
+            })
+        else:
+            editeur["blocs"].append({
+                "coin1": (x1, y1),
+                "coin2": (x2, y2),
+                "type": type_bloc,
+            })
+        
+    return editeur
+
 def charger_niveau(skin, jeu, theme, mise_a_jour_auto=True, dessiner_perso=True):
     if STATUE_JEU == False:
         efface_tout()
@@ -165,10 +237,19 @@ def charger_niveau(skin, jeu, theme, mise_a_jour_auto=True, dessiner_perso=True)
                 else:
                     theme_bloc = bloc.style
 
+                    largeur_bloc = x2 - x1
+                    hauteur_bloc = y2 - y1
+                    suffixe = "_v" if hauteur_bloc > largeur_bloc else ""
+
                     if bloc.type in NOMS_BLOCS_SPECIAUX:
-                        chemin = f"ressource/image/block/special/{theme_bloc}/{NOMS_BLOCS_SPECIAUX[bloc.type]}"
+                        nom_fichier_img = NOMS_BLOCS_SPECIAUX[bloc.type]
+                        if suffixe:
+                            nom_base, ext = nom_fichier_img.rsplit(".", 1)
+                            nom_fichier_img = f"{nom_base}{suffixe}.{ext}"
+                        chemin = f"ressource/image/block/special/{theme_bloc}/{nom_fichier_img}"
                     else:
-                        chemin = f"ressource/image/block/flotant/{theme_bloc}.png"
+                        chemin = f"ressource/image/block/flotant/{theme_bloc}{suffixe}.png"
+                    image(x1, y1, chemin, ancrage="nw")
 
                     image(x1, y1, chemin, ancrage="nw")
 
@@ -222,11 +303,18 @@ def mouvement(jeu, skin, theme, trace):
                 else:
                     theme_bloc = bloc.style
 
-                    if bloc.type in NOMS_BLOCS_SPECIAUX:
-                        chemin = f"ressource/image/block/special/{theme_bloc}/{NOMS_BLOCS_SPECIAUX[bloc.type]}"
-                    else:
-                        chemin = f"ressource/image/block/flotant/{theme_bloc}.png"
+                    largeur_bloc = x2 - x1
+                    hauteur_bloc = y2 - y1
+                    suffixe = "_v" if hauteur_bloc > largeur_bloc else ""
 
+                    if bloc.type in NOMS_BLOCS_SPECIAUX:
+                        nom_fichier_img = NOMS_BLOCS_SPECIAUX[bloc.type]
+                        if suffixe:
+                            nom_base, ext = nom_fichier_img.rsplit(".", 1)
+                            nom_fichier_img = f"{nom_base}{suffixe}.{ext}"
+                        chemin = f"ressource/image/block/special/{theme_bloc}/{nom_fichier_img}"
+                    else:
+                        chemin = f"ressource/image/block/flotant/{theme_bloc}{suffixe}.png"
                     image(x1, y1, chemin, ancrage="nw")
 
     if jeu.objectif is not None:
@@ -242,9 +330,16 @@ def mouvement(jeu, skin, theme, trace):
     id_perso = image(jeu.position_x, jeu.position_y, f"ressource/image/perso/{skin}.png")
     mise_a_jour()
 
+    resultat_final = None
+    
     while True:
 
         if jeu.pas() == "Finish":
+            if jeu.objectif is not None:
+                ox1, oy1 = jeu.objectif[0]
+                ox2, oy2 = jeu.objectif[1]
+                if ox1 <= jeu.position_x <= ox2 and oy1 <= jeu.position_y <= oy2:
+                    resultat_final = "GAGNE"
             break
 
         if len(trace) == index_debut_trace or \
@@ -265,6 +360,7 @@ def mouvement(jeu, skin, theme, trace):
         sleep(0.001)
 
     STATUE_JEU = False
+    return resultat_final
 
 def charger_menue_skin(skin):
     efface_tout()
@@ -309,8 +405,16 @@ def retour_arriere(jeu, skin, theme, historique_departs):
 
 def trouver_bloc(x, y, etat_editeur):
     for i, b in enumerate(etat_editeur["blocs"]):
-        x1, y1 = b["coin1"]
-        x2, y2 = b["coin2"]
+        if "x" in b:
+            tl = b.get("taille_l", TAILLE_BLOC_L)
+            th = b.get("taille_h", TAILLE_BLOC_H)
+            x1 = b["x"] - tl // 2
+            y1 = b["y"] - th // 2
+            x2 = b["x"] + tl // 2
+            y2 = b["y"] + th // 2
+        else:
+            x1, y1 = b["coin1"]
+            x2, y2 = b["coin2"]
         if x1 <= x <= x2 and y1 <= y <= y2:
             return i
     return None
@@ -362,6 +466,8 @@ def dessiner_panneau_editeur(etat_editeur):
         "colant":     (906, 201, 985, 218),
         "elastique":  (820, 235, 896, 250),
         "trampoline": (906, 237, 982, 252),
+        "verticale":    (831, 285, 891, 305),
+        "horizontale":  (912, 285, 985, 305),
         "OBJECTIF":   (835, 333, 968, 356),
         "DEPART":     (860, 380, 942, 459),
         "desert":     (833, 522, 966, 547),
@@ -373,11 +479,16 @@ def dessiner_panneau_editeur(etat_editeur):
     mode = etat_editeur["mode"]
     type_b = etat_editeur["type_bloc"]
     theme = etat_editeur.get("theme", None)
+    orientation = etat_editeur.get("orientation", "horizontale")
 
     if mode in POSITIONS_BOUTONS:
         bx1, by1, bx2, by2 = POSITIONS_BOUTONS[mode]
         rectangle(bx1, by1, bx2, by2, couleur="red", epaisseur=2)
 
+    if orientation in POSITIONS_BOUTONS:
+        bx1, by1, bx2, by2 = POSITIONS_BOUTONS[orientation]
+        rectangle(bx1, by1, bx2, by2, couleur="red", epaisseur=2)
+    
     if type_b in POSITIONS_BOUTONS:
         bx1, by1, bx2, by2 = POSITIONS_BOUTONS[type_b]
         rectangle(bx1, by1, bx2, by2, couleur="red", epaisseur=2)
@@ -396,48 +507,87 @@ def gestion_clic_editeur(x, y, etat_editeur):
 
     if theme and mode == "AJOUTER":
         type_block = etat_editeur["type_bloc"]
+        orientation = etat_editeur.get("orientation", "horizontale")
+
+        if orientation == "verticale":
+            taille_l = TAILLE_BLOC_V_L
+            taille_h = TAILLE_BLOC_V_H
+            suffixe = "_v"
+        else:
+            taille_l = TAILLE_BLOC_L
+            taille_h = TAILLE_BLOC_H
+            suffixe = ""
 
         if type_block in NOMS_BLOCS_SPECIAUX:
-            chemin = f"ressource/image/block/special/{theme}/{NOMS_BLOCS_SPECIAUX[type_block]}"
+            nom_fichier_img = NOMS_BLOCS_SPECIAUX[type_block]
+            # ajoute _v avant l'extension si vertical
+            if suffixe:
+                nom_base, ext = nom_fichier_img.rsplit(".", 1)
+                nom_fichier_img = f"{nom_base}{suffixe}.{ext}"
+            chemin = f"ressource/image/block/special/{theme}/{nom_fichier_img}"
         else:
-            chemin = f"ressource/image/block/flotant/{theme}.png"
+            chemin = f"ressource/image/block/flotant/{theme}{suffixe}.png"
 
         etat_editeur["blocs"].append({
-            "x": x,          
-            "y": y,
+            "x": x, "y": y,
             "type": type_block,
             "chemin": chemin,
-            "theme": theme
+            "theme": theme,
+            "taille_l": taille_l,
+            "taille_h": taille_h,
         })
         rafraichir_editeur(etat_editeur)
         return etat_editeur
 
-    if theme and mode == "MODIFIER":
-        bloc_indice = trouver_bloc_image(x, y, etat_editeur)
+    if mode == "MODIFIER":
+        bloc_indice = trouver_bloc(x, y, etat_editeur)
         if bloc_indice is not None:
             if not etat_editeur["clics"]:
                 etat_editeur["clics"] = [("selection", bloc_indice)]
                 rafraichir_editeur(etat_editeur)
                 b = etat_editeur["blocs"][bloc_indice]
-                rectangle(b["x"] - TAILLE_BLOC_L//2, b["y"] - TAILLE_BLOC_H//2,
-                            b["x"] + TAILLE_BLOC_L//2, b["y"] + TAILLE_BLOC_H//2,
-                            couleur="white", epaisseur=2)
+                if "x" in b:
+                    rectangle(b["x"] - TAILLE_BLOC_L//2, b["y"] - TAILLE_BLOC_H//2,
+                              b["x"] + TAILLE_BLOC_L//2, b["y"] + TAILLE_BLOC_H//2,
+                              couleur="white", epaisseur=2)
+                else:
+                    rectangle(b["coin1"][0], b["coin1"][1],
+                              b["coin2"][0], b["coin2"][1],
+                              couleur="white", epaisseur=2)
                 mise_a_jour()
-            else:
-                pass
         elif etat_editeur["clics"]:
             idx = etat_editeur["clics"][0][1]
-            etat_editeur["blocs"][idx]["x"] = x
-            etat_editeur["blocs"][idx]["y"] = y
+            b = etat_editeur["blocs"][idx]
+            if "x" in b:
+                b["x"] = x
+                b["y"] = y
+            else:
+                dx = b["coin2"][0] - b["coin1"][0]
+                dy = b["coin2"][1] - b["coin1"][1]
+                b["coin1"] = (x - dx//2, y - dy//2)
+                b["coin2"] = (x + dx//2, y + dy//2)
             etat_editeur["clics"] = []
             rafraichir_editeur(etat_editeur)
         return etat_editeur
 
-    if theme and mode == "SUPPRIMER":
-        bloc_indice = trouver_bloc_image(x, y, etat_editeur)
+    if mode == "SUPPRIMER":
+        bloc_indice = trouver_bloc(x, y, etat_editeur)  # trouver_bloc gère les deux
         if bloc_indice is not None:
             etat_editeur["blocs"].pop(bloc_indice)
             rafraichir_editeur(etat_editeur)
+
+        if etat_editeur["objectif"]:
+            obj = etat_editeur["objectif"]
+            if obj["coin1"][0] <= x <= obj["coin2"][0] and \
+               obj["coin1"][1] <= y <= obj["coin2"][1]:
+                etat_editeur["objectif"] = None
+                rafraichir_editeur(etat_editeur)
+
+        if etat_editeur["depart"]:
+            dx, dy = etat_editeur["depart"]
+            if dx - 25 <= x <= dx + 25 and dy - 25 <= y <= dy + 25:
+                etat_editeur["depart"] = None
+                rafraichir_editeur(etat_editeur)
         return etat_editeur
 
     if mode == "AJOUTER":
@@ -459,56 +609,8 @@ def gestion_clic_editeur(x, y, etat_editeur):
             cercle(x, y, 4, remplissage="white")
             mise_a_jour()
 
-    elif mode == "MODIFIER":
-        if not etat_editeur["clics"]:
-            bloc_trouve = trouver_bloc(x, y, etat_editeur)
-            if bloc_trouve is not None:
-                etat_editeur["clics"] = [("selection", bloc_trouve)]
-                rafraichir_editeur(etat_editeur)
-                b = etat_editeur["blocs"][bloc_trouve]
-                rectangle(b["coin1"][0], b["coin1"][1],
-                          b["coin2"][0], b["coin2"][1],
-                          couleur="white", epaisseur=2)
-                mise_a_jour()
-
-        elif len(etat_editeur["clics"]) == 1:
-            etat_editeur["clics"].append(("c1", (x, y)))
-            cercle(x, y, 4, remplissage="white")
-            mise_a_jour()
-
-        elif len(etat_editeur["clics"]) == 2:
-            idx = etat_editeur["clics"][0][1]
-            c1 = etat_editeur["clics"][1][1]
-            c2 = (x, y)
-            x1, y1 = min(c1[0], c2[0]), min(c1[1], c2[1])
-            x2, y2 = max(c1[0], c2[0]), max(c1[1], c2[1])
-            etat_editeur["blocs"][idx]["coin1"] = (x1, y1)
-            etat_editeur["blocs"][idx]["coin2"] = (x2, y2)
-            etat_editeur["clics"] = []
-            rafraichir_editeur(etat_editeur)
-
-    elif mode == "SUPPRIMER":
-        bloc_trouve = trouver_bloc(x, y, etat_editeur)
-        if bloc_trouve is not None:
-            etat_editeur["blocs"].pop(bloc_trouve)
-            rafraichir_editeur(etat_editeur)
-
-        if etat_editeur["objectif"]:
-            obj = etat_editeur["objectif"]
-            if obj["coin1"][0] <= x <= obj["coin2"][0] and \
-               obj["coin1"][1] <= y <= obj["coin2"][1]:
-                etat_editeur["objectif"] = None
-                rafraichir_editeur(etat_editeur)
-
-        if etat_editeur["depart"]:
-            dx, dy = etat_editeur["depart"]
-            if dx - 25 <= x <= dx + 25 and dy - 25 <= y <= dy + 25:
-                etat_editeur["depart"] = None
-                rafraichir_editeur(etat_editeur)
-
     elif mode == "OBJECTIF":
         etat_editeur["clics"].append((x, y))
-
         if len(etat_editeur["clics"]) == 2:
             c1 = etat_editeur["clics"][0]
             c2 = etat_editeur["clics"][1]
@@ -517,7 +619,6 @@ def gestion_clic_editeur(x, y, etat_editeur):
             etat_editeur["objectif"] = {"coin1": (x1, y1), "coin2": (x2, y2)}
             etat_editeur["clics"] = []
             rafraichir_editeur(etat_editeur)
-
         elif len(etat_editeur["clics"]) == 1:
             rafraichir_editeur(etat_editeur)
             cercle(x, y, 4, remplissage="red")
@@ -530,10 +631,8 @@ def gestion_clic_editeur(x, y, etat_editeur):
 
     return etat_editeur
 
-def trouver_bloc_image(x, y, etat_editeur):
-    for i, b in enumerate(etat_editeur["blocs"]):
-        if "x" in b:
-            if b["x"] - TAILLE_BLOC_L//2 <= x <= b["x"] + TAILLE_BLOC_L//2 and \
-               b["y"] - TAILLE_BLOC_H//2 <= y <= b["y"] + TAILLE_BLOC_H//2:
-                return i
-    return None
+def afficher_victoire(score):
+    image(400, 400, "ressource/image/fond/victoire.png")
+    texte(400, 550,"Score :"+ str(score), couleur="white", taille=40, ancrage="center")
+    image(400, 700, "ressource/image/fond/bouton_retour.png")
+    mise_a_jour()

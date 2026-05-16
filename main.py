@@ -37,8 +37,12 @@ if __name__ == "__main__":
                 nv_skin = etat.skin + "_j"
                 etat.historique_departs.append((mon_jeu.position_x, mon_jeu.position_y))
                 mouvement(mon_jeu,nv_skin,etat.theme,etat.trace)
+                resultat = mouvement(mon_jeu, nv_skin, etat.theme, etat.trace)
                 mon_jeu.nb_jump += 1
-                print(mon_jeu.nb_jump, "SCORE_DEBUG")
+                if resultat == "GAGNE":
+                    etat.menu = "GAGNE"
+                    etat.score = mon_jeu.nb_jump
+                    afficher_victoire(etat.score)
         
         if type_ev(evenement) == "Touche" :
             ev = donne_ev()

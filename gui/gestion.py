@@ -72,7 +72,11 @@ def clic_editeur(x, y, etat):
                 maj_page(etat, page_niveaux(etat.page))
             elif 503 <= x <= 567: # Éditer
                 etat.menu = "EDITEUR_NV"
-                efface_tout()
+                etat.fichier_en_cours = nom_fichier
+                chemin = f"niveaux/creation/{nom_fichier}"
+                etat.editeur = charger_editeur_depuis_fichier(chemin)
+                afichage_editeur()
+                rafraichir_editeur(etat.editeur)
 
     for index in range(len(etat.tranche), 5):
         centre_y = 240 + index * 79
@@ -97,6 +101,8 @@ def clic_editeur_nv(x, y, etat):
         (912, 985, 198, 218, "type_bloc", "colant"),
         (831, 891, 232, 252, "type_bloc", "elastique"),
         (912, 985, 232, 252, "type_bloc", "trampoline"),
+        (831, 891, 285, 305, "orientation", "verticale"),
+        (912, 985, 285, 305, "orientation", "horizontale"),
         (833, 966, 522, 547, "theme", "desert"),
         (833, 964, 559, 584, "theme", "foret"),
         (833, 966, 594, 618, "theme", "espace"),
@@ -186,7 +192,8 @@ def clic_theme_save(x, y, etat):
 
     for ymin, ymax, theme_choisi in themes:
         if ymin <= y <= ymax:
-            sauvegarder_niveau(etat.editeur, theme_choisi)
+            sauvegarder_niveau(etat.editeur, theme_choisi, nom_fichier=etat.fichier_en_cours)
+            etat.fichier_en_cours = None 
             etat.reset_editeur()
             etat.menu = "EDITEUR"
             redimensionne_fenetre(800, 800)
@@ -348,6 +355,14 @@ def clic_solveur(x, y, mon_jeu, etat):
         else:
             charger_niveau(nv_skin, mon_jeu, etat.theme)
 
+def clic_gagne(x, y, mon_jeu, etat):
+    if dans_zone(x, y, 300, 500, 670, 730):
+        mon_jeu.vider()
+        mon_jeu.nb_jump = 0
+        etat.menu = "PRINCIPAL"
+        efface_tout()
+        charger_menue(etat.skin, premier_lancement=False)
+        return etat
 
 def gestion_clique(x, y, mon_jeu, etat):
     
@@ -367,6 +382,7 @@ def gestion_clique(x, y, mon_jeu, etat):
         "PAUSE": lambda: clic_pause(x, y, mon_jeu, etat),
         "P_SAVE": lambda: clic_p_save(x, y, etat),
         "ALERTE": lambda: clic_alerte(x, y, etat),
+        "GAGNE": lambda: clic_gagne(x, y, mon_jeu, etat),
         "SOLVEUR": lambda: clic_solveur(x, y, mon_jeu, etat)
     }
 

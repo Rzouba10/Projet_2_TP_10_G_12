@@ -1,10 +1,13 @@
 from utils.constantes import *
 import os
 
-def sauvegarder_niveau(etat_editeur, theme_choisi):
-    fichiers_txt = [f for f in os.listdir("niveaux/creation") if f.endswith(".txt")]
-    numero = len(fichiers_txt) + 1
-    chemin_fichier = f"niveaux/creation/nv_{numero}.txt"
+def sauvegarder_niveau(etat_editeur, theme_choisi, nom_fichier=None):
+    if nom_fichier:
+        chemin_fichier = f"niveaux/creation/{nom_fichier}"
+    else:
+        fichiers_txt = [f for f in os.listdir("niveaux/creation") if f.endswith(".txt")]
+        numero = len(fichiers_txt) + 1
+        chemin_fichier = f"niveaux/creation/nv_{numero}.txt"
 
     with open(chemin_fichier, "w") as fichier:
 
@@ -22,15 +25,17 @@ def sauvegarder_niveau(etat_editeur, theme_choisi):
         else:
             fichier.write("0,0,0,0\n")
         
-        fichier.write(f"{theme_choisi}\n")
+        fichier.write(f"{theme_choisi if theme_choisi else 'none'}\n")
 
         for bloc in etat_editeur["blocs"]:
             if "x" in bloc:
                 cx, cy = bloc["x"], bloc["y"]
-                x1 = cx - TAILLE_BLOC_L // 2
-                y1 = cy - TAILLE_BLOC_H // 2
-                x2 = cx + TAILLE_BLOC_L // 2
-                y2 = cy + TAILLE_BLOC_H // 2
+                tl = bloc.get("taille_l", TAILLE_BLOC_L)
+                th = bloc.get("taille_h", TAILLE_BLOC_H)
+                x1 = cx - tl // 2
+                y1 = cy - th // 2
+                x2 = cx + tl // 2
+                y2 = cy + th // 2
                 theme = bloc.get("theme", "custom")
             else:
                 x1, y1 = bloc["coin1"]

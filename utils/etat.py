@@ -15,10 +15,14 @@ class EtatJeu:
         self.page = 0
         self.nb_pages = 1
         self.tranche = []
+        self.fichier_en_cours = None
+        
+        self.score = 0
 
         self.editeur = {
             "mode": None,
             "type_bloc": "normal",
+            "orientation": "horizontale",
             "clics": [],
             "blocs": [],
             "objectif": None,
@@ -30,6 +34,7 @@ class EtatJeu:
         self.editeur = {
             "mode": None,
             "type_bloc": "normal",
+            "orientation": "horizontale",
             "clics": [],
             "blocs": [],
             "objectif": None,
