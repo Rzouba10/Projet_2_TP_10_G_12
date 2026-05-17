@@ -32,7 +32,7 @@
         <header class="page-header">
             <span class="tag">Rapport de projet</span>
             <h1>Saute Mouton</h1>
-            <p class="subtitle">Projet de programmation — L1 MI</p>
+            <p class="subtitle">Projet 2 — L1 MI Gustave Eiffel</p>
         </header>
 
         <section id="identite" class="card">
@@ -50,7 +50,7 @@
                 </tr>
                 <tr>
                     <td class="label">Année</td>
-                    <td>2024–2025</td>
+                    <td>2025–2026</td>
                 </tr>
             </table>
         </section>
@@ -60,17 +60,16 @@
             <h2>Guide utilisateur</h2>
 
             <h3>Lancement</h3>
-            <div class="code-block">python main.py</div>
+            <div class="code-block">python3 sautemouton.py</div>
             <p>
-                <!-- Explique comment lancer le programme -->
-                Lance le fichier <code>main.py</code> depuis la racine du projet.
+                Lance le fichier <code>sautemouton.py</code> depuis la racine du projet.
             </p>
 
             <h3>Menus</h3>
             <ul class="styled-list">
-                <li><strong>Menu principal</strong> — point d'entrée du jeu. Permet d'accéder aux thèmes, à l'éditeur et au choix de skin.</li>
-                <li><strong>Thème</strong> — choix du monde (Forêt, Pirate, Désert, Espace) ou des niveaux créés.</li>
-                <li><strong>Niveau</strong> — sélection du niveau 1, 2 ou 3.</li>
+                <li><strong>Menu principal</strong> — point d'entrée du jeu. Permet de lancer le jeux en accédent aux diferent thèmes proposer, à l'éditeur et au choix de skin.</li>
+                <li><strong>Thème</strong> — choix du monde (Forêt, Pirate, Désert, Espace) ou des niveaux créés par vous.</li>
+                <li><strong>Niveau</strong> — sélection de la dificulter du niveau 1, 2 ou 3.</li>
                 <li><strong>Éditeur</strong> — création et modification de niveaux personnalisés.</li>
             </ul>
 
@@ -95,43 +94,52 @@
             <div class="card-label">03</div>
             <h2>État d'avancement</h2>
 
-            <!-- REMPLIS ICI : ce qui est fait, ce qui ne l'est pas, les bugs -->
             <h3>Parties obligatoires terminées</h3>
             <ul class="styled-list check">
-                <li>Physique du mouton (gravité, collisions, types de blocs)</li>
-                <li>Affichage graphique avec thèmes visuels</li>
-                <li>Solveur en profondeur et en largeur</li>
-                <li>Éditeur de niveaux complet (ajout, modification, suppression)</li>
-                <li>Sauvegarde et chargement des niveaux créés</li>
-                <li>Vérification de la faisabilité avant sauvegarde</li>
+                <li>Structures de données (personnage, blocs, objectif)</li>
+                <li>Chargement du niveau depuis un fichier</li>
+                <li>Fonctions clic_vers_vitesse, collision, victoire</li>
+                <li>Fonction pas() — un pas élémentaire de simulation</li>
+                <li>Menu au lancement</li>
+                <li>Affichage des blocs, personnage, objectif</li>
+                <li>Clic gauche pour viser, flèche rouge, clic droit pour valider</li>
+                <li>Touche Échap pour revenir au menu</li>
+                <li>Message de victoire avec retour au menu</li>
+                <li>Recherche en profondeur naïve</li>
+            </ul>
+
+            <h3>Parties Bonus terminées</h3>
+            <ul class="styled-list check">
+                <li>Autres types de chocs (Glissement,Dérapage,Choc élastique,Choc amorti,Choc amorti)</li>
+                <li>Touche pour le retour en arrière</li>
+                <li>Jeu sur une image</li>
+                <li>Animation des sauts et dessin de la trajectoire</li>
+                <li>Approximation des positions et des vitesses</li>
+                <li>Tracé des positions explorées et de la solution trouvée</li>
+                <li>Tracé des positions explorées et de la solution trouvée</li>
+                <li>Implémentation d'un éditeur de niveau.</li>
             </ul>
 
             <h3>Bugs connus</h3>
             <ul class="styled-list cross">
-                <!-- Liste ici les bugs que tu connais -->
                 <li>Aucun bug majeur connu au moment de la remise.</li>
             </ul>
         </section>
 
         <section id="ameliorations" class="card">
             <div class="card-label">04</div>
-            <h2>Améliorations</h2>
+            <h2>Améliorations possible</h2>
 
-            <!-- REMPLIS ICI : les fonctionnalités bonus que tu as ajoutées -->
             <ul class="styled-list star">
-                <li><strong>Éditeur de niveaux</strong> — création, modification et suppression de niveaux personnalisés avec choix de thème visuel.</li>
-                <li><strong>Blocs verticaux</strong> — blocs image orientables verticalement ou horizontalement dans l'éditeur.</li>
-                <li><strong>Écran de victoire</strong> — affichage du score (nombre de sauts) à la fin d'un niveau.</li>
-                <li><strong>Retour arrière</strong> — annulation du dernier saut avec la touche Z.</li>
-                <li><strong>Choix de skin</strong> — personnalisation de l'apparence du mouton.</li>
+                <li><strong>Ajout De sauvegarde du niveau en cours</strong> — conservation de la progression du joueur pour reprendre une partie ultérieurement.</li>
+                <li><strong>Ajout d'un troisieme algoritme de soltion</strong> — nouvelle stratégie de résolution automatique en complément de la recherche en profondeur et en largeur.</li>
+                <li><strong>Ajout d'obstacle en mouvement</strong> — blocs se déplaçant dynamiquement pour augmenter la difficulté des niveaux.</li>
             </ul>
         </section>
 
         <section id="fonctions" class="card">
             <div class="card-label">05</div>
             <h2>Fonctions importantes</h2>
-
-            <!-- REMPLIS ICI : décris chaque fonction importante -->
 
             <div class="fonction-block">
                 <div class="fonction-name">mouvement(jeu, skin, theme, trace)</div>
@@ -140,9 +148,9 @@
             </div>
 
             <div class="fonction-block">
-                <div class="fonction-name">solveur_largeur(jeu, objectif)</div>
-                <div class="fonction-file">core/solveur.py</div>
-                <p>Implémente une recherche en largeur (BFS) pour trouver la solution optimale en nombre de sauts. Utilise une file et un ensemble de positions visitées avec une finesse de 10 pixels pour éviter de revisiter des positions proches.</p>
+                <div class="fonction-name">charger_niveau(skin, jeu, theme, mise_a_jour_auto, dessiner_perso)</div>
+                <div class="fonction-file">gui/interface.py</div>
+                <p>Redessine complètement le niveau : fond, parois, blocs (avec détection automatique orientation horizontale/verticale), objectif et personnage. Paramètres optionnels pour le solveur qui n'a pas besoin de mise à jour visuelle.</p>
             </div>
 
             <div class="fonction-block">
@@ -152,27 +160,33 @@
             </div>
 
             <div class="fonction-block">
-                <div class="fonction-name">simuler_saut(jeu, vitesse_x, vitesse_y, objectif)</div>
-                <div class="fonction-file">core/solveur.py</div>
-                <p>Simule un saut complet sans l'afficher. Sauvegarde l'état du jeu, applique les vitesses, exécute jusqu'à 5000 pas physiques, puis restaure l'état initial. Retourne la position d'atterrissage et si l'objectif a été atteint.</p>
+                <div class="fonction-name">gestion_clique(x, y, mon_jeu, etat)</div>
+                <div class="fonction-file">gui/gestion.py</div>
+                <p>Sert à centraliser tous les clics du jeu et à rediriger automatiquement chaque clic vers la fonction adaptée selon le menu actuellement affiché.</p>
             </div>
 
             <div class="fonction-block">
-                <div class="fonction-name">gestion_clic_editeur(x, y, etat_editeur)</div>
-                <div class="fonction-file">gui/interface.py</div>
-                <p>Cœur de l'éditeur de niveaux. Gère les cinq modes (Ajouter, Modifier, Supprimer, Objectif, Départ) pour les blocs image et les blocs rectangles. Distingue les deux formats de blocs via la clé <code>"x"</code> pour les blocs image et <code>"coin1"</code> pour les rectangles.</p>
+                <div class="fonction-name">pas()</div>
+                <div class="fonction-file">core/core.py</div>
+                <p>Effectue une étape du mouvement du joueur. S'éxecute en boucle tant que la vitesse du personnage n'est pas nul. Gère également les colision avec les blocs classiques et les blocs spéciaux.</p>
             </div>
 
             <div class="fonction-block">
-                <div class="fonction-name">charger_editeur_depuis_fichier(chemin)</div>
-                <div class="fonction-file">gui/interface.py</div>
-                <p>Lit un fichier <code>.txt</code> de niveau et reconstruit la structure <code>etat.editeur</code> complète. Détermine l'orientation (vertical/horizontal) des blocs image selon leurs dimensions dans le fichier pour charger le bon chemin d'image.</p>
+                <div class="fonction-name">en_collision()</div>
+                <div class="fonction-file">core/core.py</div>
+                <p>À chaque pas, parcours l'ensemble des blocs d'un niveau et détecte si il est en colision avec le joueur. Détecte aussi son type de bloc si il est spécial.</p>
             </div>
 
             <div class="fonction-block">
-                <div class="fonction-name">sauvegarder_niveau(etat_editeur, theme_choisi, nom_fichier)</div>
-                <div class="fonction-file">utils/sauvegarde.py</div>
-                <p>Écrit le niveau dans un fichier <code>.txt</code> au format standard. Si <code>nom_fichier</code> est fourni, écrase le fichier existant (mode édition) ; sinon, crée un nouveau fichier numéroté (mode création). Utilise les vraies dimensions de chaque bloc pour calculer les coordonnées.</p>
+                <div class="fonction-name">detection_colision()</div>
+                <div class="fonction-file">core/core.py</div>
+                <p>Détecte avec des coordonnées précise d'un bloc, si le joueur est en colision avec celui-ci.</p>
+            </div>
+
+            <div class="fonction-block">
+                <div class="fonction-name">clic_vers_vitesse(clic)</div>
+                <div class="fonction-file">core/core.py</div>
+                <p>Prend les coordonnées d'un clic de souris et calcule la vitesse de départ plafonné par la <code>VMAX</code>. Renvoie également un vecteur vitesse et direction pour l'afficher dans le niveau.</p>
             </div>
 
         </section>
@@ -181,32 +195,31 @@
             <div class="card-label">06</div>
             <h2>Répartition du travail</h2>
 
-            <!-- REMPLIS ICI : qui a fait quoi, en pourcentage -->
             <div class="repartition-grid">
                 <div class="membre-card">
-                    <div class="membre-nom">Étudiant 1</div>
+                    <div class="membre-nom">Rayan Zouba</div>
                     <div class="membre-pct">50%</div>
                     <ul class="styled-list">
-                        <li><!-- Ce que tu as fait --></li>
-                        <li><!-- Ce que tu as fait --></li>
+                        <li>Realisation de la Tâche 3 : Affichage graphique et interface utilisateur</li>
+                        <li>Realisation de la Tâche 4 : Recherche automatique de solution</li>
+                        <li>Realisation de l'editeur de niveaux</li>
                     </ul>
                 </div>
                 <div class="membre-card">
-                    <div class="membre-nom">Étudiant 2</div>
+                    <div class="membre-nom">Remi Tribut</div>
                     <div class="membre-pct">50%</div>
                     <ul class="styled-list">
-                        <li><!-- Ce que l'autre a fait --></li>
-                        <li><!-- Ce que l'autre a fait --></li>
+                        <li>Gestion du moteur physique : Calcul du vecteur vitesse, des colisions en fonction du bloc et des étapes du mouvement.</li>
+                        <li>Représentation des données : Lecture d'un fichier de niveau à l'aide de méthodes et rangement dans une Classe avec des attributs.</li>
+                        <li>Créations des différents niveaux en fonction de la difficulté.</li>
                     </ul>
                 </div>
             </div>
 
             <h3>Difficultés rencontrées</h3>
             <ul class="styled-list">
-                <!-- REMPLIS ICI -->
                 <li>Gestion des deux formats de blocs (image et rectangle) dans l'éditeur.</li>
                 <li>Synchronisation des dimensions réelles des blocs entre l'éditeur, la sauvegarde et le solveur.</li>
-                <li>Conception d'un troisième solveur qui trouve des solutions non optimales mais toujours valides.</li>
             </ul>
         </section>
 

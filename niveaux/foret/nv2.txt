@@ -10,4 +10,3 @@ foret
 592,288,632,388,colant,foret
 698,196,738,296,colant,foret
 509,234,607,262,normal,foret
-

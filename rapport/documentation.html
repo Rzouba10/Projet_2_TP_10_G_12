@@ -40,7 +40,7 @@
             <h2>Structure du projet</h2>
             <div class="code-block">
 projet/<br>
-├── main.py               <span class="comment"># Point d'entrée</span><br>
+├── sautemouton.py               <span class="comment"># Point d'entrée</span><br>
 ├── core/<br>
 │   ├── core.py           <span class="comment"># Classes Game et Bloc</span><br>
 │   └── solveur.py        <span class="comment"># Algorithmes de résolution</span><br>
@@ -67,7 +67,7 @@ projet/<br>
             <h2>Module core/</h2>
 
             <h3>core.py — Classe Game</h3>
-            <p>Représente l'état complet d'une partie en cours.</p>
+            <p>Représente l'état complet d'une partie en cours. Gère la position du joueur selon les coups et le moteur physique.</p>
 
             <div class="attr-block">
                 <div class="attr-title">Attributs</div>
@@ -92,8 +92,23 @@ projet/<br>
             </div>
 
             <div class="fonction-block">
+                <div class="fonction-name">en_collision()</div>
+                <p>Methode parcourant l'ensemble des blocs du niveau à chaque pas. Fait appel à la méthode <code>detection_colision(coin_sup_gauche, coin_inf_droit)</code> pour chaque bloc. Si une colision est détécté dans le pas, renvoie le type de bloc rencontré. Sinon, renvoie <code>None</code>.</p>
+            </div>
+
+            <div class="fonction-block">
                 <div class="fonction-name">is_winnable()</div>
                 <p>Vérifie si le mouton est actuellement dans la zone objectif. Utilisé à chaque pas dans <code>mouvement()</code> pour détecter la victoire immédiatement.</p>
+            </div>
+
+            <div class="fonction-block">
+                <div class="fonction-name">lire_fichier_niveau()</div>
+                <p>Méthode permettant de lire toutes les informations texte du niveau. Stock les informations dans une liste de liste non trié.</p>
+            </div>
+
+            <div class="fonction-block">
+                <div class="fonction-name">ranger_donnees()</div>
+                <p>Utilise la méthode <code>lire_fichier_niveau()</code> afin de ranger les données reçus dans les attributs de notre classe principal, "Jeu".</p>
             </div>
 
             <div class="fonction-block">
@@ -211,7 +226,6 @@ foret<br>
             </ul>
         </section>
 
-        <!-- ALGORITHMES -->
         <section id="solveurs" class="card">
             <div class="card-label">06</div>
             <h2>Algorithmes de résolution</h2>

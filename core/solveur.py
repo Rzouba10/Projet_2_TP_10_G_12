@@ -2,14 +2,16 @@ from utils.structure import *
 from utils.constantes import *
 from requirement.fltk import *
 from gui.interface import *
+from utils.constantes import *
 from time import *
 from random import *
 
-FINESSE_POSITION = 5
-INCREMENT_VITESSE = 5
-
 
 def simuler_saut(jeu, vitesse_x, vitesse_y, objectif=None):
+    """
+    Simule un saut sans modifier l'état du jeu et retourne la position finale et si l'objectif est atteint.
+    """
+    
     from utils.constantes import PAS, GRAVITE
 
     pos_x_sauvegarde = jeu.position_x
@@ -48,6 +50,10 @@ def simuler_saut(jeu, vitesse_x, vitesse_y, objectif=None):
 
 
 def est_dans_objectif(jeu, objectif):
+    """
+    Vérifie si la position actuelle du joueur est dans la zone objectif.
+    """
+    
     x = jeu.position_x
     y = jeu.position_y
     
@@ -57,6 +63,9 @@ def est_dans_objectif(jeu, objectif):
 
 
 def solveur_profondeur(jeu, objectif, afficher_progression=None):
+    """
+    Recherche une solution par parcours en profondeur et retourne le chemin de vitesses, ou None.
+    """
     
     positions_visitees = set()
     
@@ -110,6 +119,9 @@ def solveur_profondeur(jeu, objectif, afficher_progression=None):
 
 
 def solveur_largeur(jeu, objectif, afficher_progression=None):
+    """
+    Recherche une solution par parcours en largeur et retourne le chemin de vitesses le plus court, ou None.
+    """
     
     positions_visitees = set()
     liste_vitesses     = generer_vitesses(INCREMENT_VITESSE)
@@ -160,6 +172,9 @@ def solveur_largeur(jeu, objectif, afficher_progression=None):
     return None
 
 def afficher_positions_visitees(jeu, positions_visitees, skin, theme):
+    """
+    Redessine le niveau en superposant le personnage sur chaque position visitée par le solveur.
+    """
     
     charger_niveau(skin, jeu, theme, mise_a_jour_auto=False, dessiner_perso=True)
     
@@ -172,7 +187,9 @@ def afficher_positions_visitees(jeu, positions_visitees, skin, theme):
 
 
 def rejouer_solution(jeu, chemin_solution, skin, theme, trace):
-    from gui.interface import mouvement
+    """
+    Rejoue séquentiellement chaque saut de la solution trouvée par le solveur.
+    """
     
     trace.clear()
     

@@ -4,11 +4,18 @@ from time import *
 import os
 
 def charger_page_niveau(theme, niveau, skin, mon_jeu):
+    """
+    Charge et affiche un niveau officiel à partir du thème et du numéro de niveau.
+    """
+    
     nom_fichier = "niveaux/" + str(theme) + "/" + "nv" + str(niveau) + ".txt"
     mon_jeu.ranger_donnees(nom_fichier)
     charger_niveau(skin, mon_jeu, theme)
 
 def charger_menue(skin,premier_lancement=False):
+    """
+    Affiche le menu principal avec le skin du joueur, avec animation si premier lancement.
+    """
     
     if premier_lancement:
         fond = image(400, 400, "ressource/image/fond/menue.png")
@@ -21,18 +28,22 @@ def charger_menue(skin,premier_lancement=False):
         efface(logo)
         efface(fond)
         
-        fond_2 = image(400, 400, "ressource/image/fond/menue_2.png")
-        skin_f = image(145, 680, "ressource/image/perso/" + str(skin)+".png")
+        fond_principale = image(400, 400, "ressource/image/fond/menue_2.png")
+        skin_principale = image(145, 680, "ressource/image/perso/" + str(skin)+".png")
         
         mise_a_jour()
     
     else:
-        fond_2 = image(400, 400, "ressource/image/fond/menue_2.png")
-        skin_f = image(145, 700, "ressource/image/perso/" + str(skin)+".png")
+        fond_principale = image(400, 400, "ressource/image/fond/menue_2.png")
+        skin_principale = image(145, 700, "ressource/image/perso/" + str(skin)+".png")
         
         mise_a_jour()
 
 def page_niveaux(page=0):
+    """
+    Affiche la page de liste des niveaux de l'éditeur et retourne les données de pagination.
+    """
+    
     liste_fichiers = []
     for fichier in os.listdir("niveaux/creation"):
         if fichier.endswith(".txt"):
@@ -80,13 +91,17 @@ def page_niveaux(page=0):
     return {"page": page, "nb_pages": nb_pages, "tranche": tranche}
 
 def page_niveaux_creation(page=0):
+    """
+    Affiche la page de sélection des niveaux créés par l'utilisateur et retourne la pagination.
+    """
+    
     liste_fichiers = []
     for fichier in os.listdir("niveaux/creation"):
         if fichier.endswith(".txt"):
             liste_fichiers.append(fichier)
     liste_fichiers.sort()
 
-    nb_pages = max(1, -(-len(liste_fichiers) // 5))  # division arrondie au supérieur
+    nb_pages = max(1, -(-len(liste_fichiers) // 5))
 
     page = max(0, min(page, nb_pages - 1))
 
@@ -95,7 +110,7 @@ def page_niveaux_creation(page=0):
 
     efface_tout()
     image(400, 400, "ressource/image/fond/menue.png")
-    image(400, 400, "ressource/image/fond/creation.png")   # même fond que l'éditeur
+    image(400, 400, "ressource/image/fond/creation.png") 
     image(400, 770, "ressource/image/fond/bouton_retour.png")
 
     position_y = 240
@@ -103,7 +118,7 @@ def page_niveaux_creation(page=0):
         if index < len(tranche):
             nom_niveau = tranche[index].replace(".txt", "")
             texte(150, position_y, nom_niveau, couleur="black", taille=20, ancrage="w")
-            image(535, position_y, "ressource/image/bouton/jouer.png")  # ton image bouton jouer
+            image(535, position_y, "ressource/image/bouton/jouer.png")
         position_y += 79
 
     if page > 0:
@@ -116,10 +131,17 @@ def page_niveaux_creation(page=0):
     return {"page": page, "nb_pages": nb_pages, "tranche": tranche}
 
 def page_choix_theme_sauvegarde():
+    """
+    Affiche l'écran de sélection du thème avant la sauvegarde d'un niveau.
+    """
+    
     image(500, 400, "ressource/image/fond/editeur_theme.png")
     mise_a_jour()
 
 def afichage_editeur():
+    """
+    Initialise et affiche l'interface graphique de l'éditeur de niveaux.
+    """
     
     efface_tout()
     redimensionne_fenetre(1000,800 )
@@ -142,6 +164,10 @@ def afichage_editeur():
     pass
 
 def charger_editeur_depuis_fichier(chemin):
+    """
+    Charge et retourne l'état de l'éditeur depuis un fichier de niveau existant.
+    """
+    
     editeur = {
         "blocs": [],
         "objectif": None,
@@ -214,6 +240,10 @@ def charger_editeur_depuis_fichier(chemin):
     return editeur
 
 def charger_niveau(skin, jeu, theme, mise_a_jour_auto=True, dessiner_perso=True):
+    """
+    Dessine l'état complet du niveau : fond, blocs, objectif et personnage.
+    """
+    
     if STATUE_JEU == False:
         efface_tout()
 
@@ -270,11 +300,18 @@ def charger_niveau(skin, jeu, theme, mise_a_jour_auto=True, dessiner_perso=True)
             mise_a_jour()
 
 def dessiner_vecteur(jeu, vect):
+    """
+    Dessine la ligne et la flèche représentant le vecteur de tir depuis la position du joueur.
+    """
 
     ligne(jeu.position_x, jeu.position_y, vect[0], vect[1], couleur="red", epaisseur=2)  
     fleche(jeu.position_x, jeu.position_y, vect[0], vect[1], couleur="red", epaisseur=2)
 
 def mouvement(jeu, skin, theme, trace):
+    """
+    Anime le déplacement du joueur jusqu'à l'arrêt, la victoire ou la chute, et retourne le résultat.
+    """    
+
     global STATUE_JEU
     STATUE_JEU = True
     
@@ -365,7 +402,10 @@ def mouvement(jeu, skin, theme, trace):
     return resultat_final
 
 def charger_menue_skin(skin, page=0):
-    NB_SKINS_PAR_PAGE = 9
+    """
+    Affiche le menu de sélection de skin paginé et retourne les données de pagination.
+    """
+    
     tous_les_skins = [s for ligne in LISTE_SKIN for s in ligne if s is not None]
     nb_pages = max(1, -(-len(tous_les_skins) // NB_SKINS_PAR_PAGE))
     page = max(0, min(page, nb_pages - 1))
@@ -393,22 +433,11 @@ def charger_menue_skin(skin, page=0):
     mise_a_jour()
     return {"page": page, "nb_pages": nb_pages}
 
-
-def charger_pause_save(evenement):
-    
-    x = abscisse(evenement)
-    y = ordonnee(evenement)
-    
-    if 250 <= x <= 540 and 270 <= y <= 340:
-         pass
-    
-    if 250 <= x <= 540 and 360 <= y <= 430:
-         pass
-    
-    if 250 <= x <= 540 and 460 <= y <= 530:
-         pass
-
 def retour_arriere(jeu, skin, theme, historique_departs):
+    """
+    Restaure la dernière position sauvegardée du joueur et redessine le niveau.
+    """
+    
     if not historique_departs:
         return
 
@@ -420,6 +449,10 @@ def retour_arriere(jeu, skin, theme, historique_departs):
     charger_niveau(skin, jeu, theme)
 
 def trouver_bloc(x, y, etat_editeur):
+    """
+    Retourne l'indice du bloc contenant le point (x, y), ou None si aucun.
+    """
+    
     for i, b in enumerate(etat_editeur["blocs"]):
         if "x" in b:
             tl = b.get("taille_l", TAILLE_BLOC_L)
@@ -437,6 +470,10 @@ def trouver_bloc(x, y, etat_editeur):
 
 
 def rafraichir_editeur(etat_editeur):
+    """
+    Redessine entièrement l'éditeur : fond, blocs, objectif, départ et panneau d'outils.
+    """
+    
     efface_tout()
     image(500, 400, "ressource/image/fond/editeur.png")
     image(900, 730, "ressource/image/fond/bouton_retour.png")
@@ -472,6 +509,10 @@ def rafraichir_editeur(etat_editeur):
 
 
 def dessiner_panneau_editeur(etat_editeur):
+    """
+    Surligne en rouge les boutons actifs du panneau latéral de l'éditeur.
+    """
+    
     POSITIONS_BOUTONS = {
         "AJOUTER":    (837, 20,  970, 49),
         "MODIFIER":   (838, 57,  971, 84),
@@ -517,6 +558,9 @@ def dessiner_panneau_editeur(etat_editeur):
         rectangle(bx1, by1, bx2, by2, couleur="red", epaisseur=2)
     
 def gestion_clic_editeur(x, y, etat_editeur):
+    """
+    Traite un clic sur la zone de dessin de l'éditeur selon le mode actif (ajouter, modifier, supprimer, objectif, départ).
+    """
     
     mode = etat_editeur["mode"]
     theme = etat_editeur.get("theme", None)
@@ -652,6 +696,10 @@ def gestion_clic_editeur(x, y, etat_editeur):
     return etat_editeur
 
 def afficher_victoire(score):
+    """
+    Affiche l'écran de victoire avec le score du joueur.
+    """
+    
     image(400, 400, "ressource/image/fond/victoire.png")
     texte(400, 550,"Score : "+ str(score), couleur="white", taille=40, ancrage="center")
     image(400, 700, "ressource/image/fond/bouton_retour.png")

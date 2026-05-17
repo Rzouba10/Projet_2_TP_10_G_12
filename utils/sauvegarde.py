@@ -2,6 +2,10 @@ from utils.constantes import *
 import os
 
 def sauvegarder_niveau(etat_editeur, theme_choisi, nom_fichier=None):
+    """
+    Sauvegarde l'état de l'éditeur dans un fichier texte, en écrasant le fichier existant ou en en créant un nouveau.
+    """
+    
     if nom_fichier:
         chemin_fichier = f"niveaux/creation/{nom_fichier}"
     else:

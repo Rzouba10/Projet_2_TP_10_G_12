@@ -6,11 +6,11 @@ from gui.gestion import *
 if __name__ == "__main__":
     
     etat = EtatJeu()
-    
-    point = []
     mon_jeu = Game()
     
     cree_fenetre(800,800)
+    
+    point = []
     
     charger_menue(etat.skin, premier_lancement=True)
     
@@ -54,7 +54,7 @@ if __name__ == "__main__":
             if t == "z" and etat.menu == "JEU" and not STATUE_JEU:
                 nv_skin = f"{etat.skin}_j"
                 retour_arriere(mon_jeu, nv_skin, etat.theme, etat.historique_departs)
-            
+    
     print(point)
     
     ferme_fenetre()

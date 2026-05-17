@@ -6,15 +6,25 @@ from utils.sauvegarde import *
 from core.solveur import * 
 import os 
  
-def maj_page(etat, nouvelle_page): 
+def maj_page(etat, nouvelle_page):
+    """
+    Met à jour les attributs de pagination de l'état.
+    """ 
+    
     etat.page = nouvelle_page["page"] 
     etat.nb_pages = nouvelle_page["nb_pages"] 
     etat.tranche = nouvelle_page["tranche"] 
 
 def dans_zone(x, y, xmin, xmax, ymin, ymax):
+    """
+    Vérifie si le point (x, y) est dans la zone rectangulaire définie.
+    """
     return xmin <= x <= xmax and ymin <= y <= ymax
 
 def clic_principal(x, y, etat):
+    """
+    Gère les clics sur le menu principal et navigue vers le bon sous-menu.
+    """
     if dans_zone(x, y, 260, 410, 650, 690):
         etat.menu = "SKIN"
         charger_menue_skin(etat.skin, etat.page_skin)
@@ -24,11 +34,14 @@ def clic_principal(x, y, etat):
         image(400, 400, "ressource/image/fond/menue.png")
         image(400, 400, "ressource/image/fond/theme.png")
         image(400, 750, "ressource/image/fond/bouton_retour.png")
-    elif dans_zone(x, y, 290, 510, 460, 520):
+    elif dans_zone(x, y, 290, 510, 370, 420):
         etat.menu = "EDITEUR"
         maj_page(etat, page_niveaux())
 
 def clic_skin(x, y, mon_jeu, etat):
+    """
+    Gère les clics sur le menu de sélection de skin.
+    """
     tous_les_skins = [s for ligne in LISTE_SKIN for s in ligne if s is not None]
     nb_pages = max(1, -(-len(tous_les_skins) // 9))
 
@@ -73,6 +86,10 @@ def clic_skin(x, y, mon_jeu, etat):
     return etat
 
 def clic_editeur(x, y, etat):
+    """
+    Gère les clics sur le menu de liste des niveaux de l'éditeur.
+    """
+    
     if dans_zone(x, y, 300, 500, 730, 790):
         etat.menu = "PRINCIPAL"
         efface_tout()
@@ -106,6 +123,10 @@ def clic_editeur(x, y, etat):
             afichage_editeur()
 
 def clic_editeur_nv(x, y, etat):
+    """
+    Gère les clics dans l'interface d'édition d'un niveau (outils, blocs, sauvegarde).
+    """
+    
     if x <= 800:
         etat.editeur = gestion_clic_editeur(x, y, etat.editeur)
         return
@@ -196,12 +217,20 @@ def clic_editeur_nv(x, y, etat):
         return etat
 
 def clic_alerte(x, y, etat):
+    """
+    Gère le clic de fermeture de l'écran d'alerte de l'éditeur.
+    """
+    
     if dans_zone(x, y, 383, 617, 375, 415):
         etat.menu = "EDITEUR_NV"
         afichage_editeur()
         rafraichir_editeur(etat.editeur)
 
 def clic_theme_save(x, y, etat):
+    """
+    Gère la sélection du thème lors de la sauvegarde d'un niveau créé.
+    """
+    
     if not (383 <= x <= 617):
         return etat
 
@@ -226,6 +255,10 @@ def clic_theme_save(x, y, etat):
     return etat
 
 def clic_creation(x, y, mon_jeu, etat):
+    """
+    Gère les clics sur le menu de sélection des niveaux créés par l'utilisateur.
+    """
+    
     if dans_zone(x, y, 300, 500, 730, 790):
         etat.menu = "THEME"
         efface_tout()
@@ -257,6 +290,10 @@ def clic_creation(x, y, mon_jeu, etat):
                 return etat
 
 def clic_theme(x, y, etat):
+    """
+    Gère les clics sur le menu de sélection de thème.
+    """
+    
     if dans_zone(x, y, 300, 500, 720, 780):
         etat.menu = "PRINCIPAL"
         efface_tout()
@@ -287,6 +324,10 @@ def clic_theme(x, y, etat):
                 return
 
 def clic_niveau(x, y, mon_jeu, etat):
+    """
+    Gère les clics sur le menu de sélection du numéro de niveau.
+    """
+    
     if dans_zone(x, y, 300, 500, 720, 780):
         etat.menu = "PRINCIPAL"
         efface_tout()
@@ -311,12 +352,20 @@ def clic_niveau(x, y, mon_jeu, etat):
                 return
 
 def clic_jeu(x, y, mon_jeu, etat):
+    """
+    Gère le clic en jeu pour calculer et afficher le vecteur de tir.
+    """
+    
     nv_skin = f"{etat.skin}_j"
     charger_niveau(nv_skin, mon_jeu, etat.theme)
     vect = mon_jeu.clic_vers_vitesse((x, y))
     dessiner_vecteur(mon_jeu, vect)
 
 def clic_pause(x, y, mon_jeu, etat):
+    """
+    Gère les clics sur le menu pause (reprendre, solveur, sauvegarder).
+    """
+    
     if dans_zone(x, y, 250, 540, 270, 340):
         nv_skin = f"{etat.skin}_j"
         etat.menu = "JEU"
@@ -326,23 +375,18 @@ def clic_pause(x, y, mon_jeu, etat):
         efface(etat.menue)
         image(400, 400, "ressource/image/fond/pause_solver.png")
     elif dans_zone(x, y, 250, 540, 460, 530):
-        etat.menu = "P_SAVE"
-        efface(etat.menue)
-        image(400, 400, "ressource/image/fond/pause_save.png")
-
-def clic_p_save(x, y, etat):
-    if 380 <= y <= 460:
-        if 250 <= x <= 340:
-            etat.niveau = 0
-            etat.theme = ""
-            etat.menu = "PRINCIPAL"
-            efface_tout()
-            charger_menue(etat.skin, premier_lancement=False)
-            return etat
-        elif 450 <= x <= 550:
-            etat.menu = "SAVE"
+        etat.niveau = 0
+        etat.theme = ""
+        etat.menu = "PRINCIPAL"
+        efface_tout()
+        charger_menue(etat.skin, premier_lancement=False)
+        return etat
 
 def clic_solveur(x, y, mon_jeu, etat):
+    """
+    Gère les clics sur le menu solveur (lancer résolution en profondeur ou largeur).
+    """
+    
     if not (310 <= y <= 420): 
         return
         
@@ -379,6 +423,10 @@ def clic_solveur(x, y, mon_jeu, etat):
             charger_niveau(nv_skin, mon_jeu, etat.theme)
 
 def clic_gagne(x, y, mon_jeu, etat):
+    """
+    Gère le clic sur l'écran de victoire pour retourner au menu principal.
+    """
+    
     if dans_zone(x, y, 300, 500, 670, 730):
         mon_jeu.vider()
         mon_jeu.nb_jump = 0
@@ -388,6 +436,9 @@ def clic_gagne(x, y, mon_jeu, etat):
         return etat
 
 def gestion_clique(x, y, mon_jeu, etat):
+    """
+    Dispatche le clic vers la fonction de gestion correspondant au menu actif.
+    """
     
     if STATUE_JEU: 
         return etat
@@ -403,7 +454,6 @@ def gestion_clique(x, y, mon_jeu, etat):
         "NIVEAU": lambda: clic_niveau(x, y, mon_jeu, etat),
         "JEU": lambda: clic_jeu(x, y, mon_jeu, etat),
         "PAUSE": lambda: clic_pause(x, y, mon_jeu, etat),
-        "P_SAVE": lambda: clic_p_save(x, y, etat),
         "ALERTE": lambda: clic_alerte(x, y, etat),
         "GAGNE": lambda: clic_gagne(x, y, mon_jeu, etat),
         "SOLVEUR": lambda: clic_solveur(x, y, mon_jeu, etat)

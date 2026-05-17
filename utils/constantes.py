@@ -1,20 +1,20 @@
+# Murs et sol
+MUR_GAUCHE = [[0, 0],   [20, 780]]
+MUR_DROIT  = [[780, 0], [800, 780]]
+SOL        = [[0, 780], [800, 800]]
 
-# Block
-MUR_GAUCHE = [[0,0],[20,780]]
-MUR_DROIT = [[780,0],[800,780]]
-SOL = [[0,780],[800,800]]
-
-# Jeu
-VMAX = 50
-PAS = 0.2
-GRAVITE = (0, 9.81)
+# Physique
+VMAX       = 50
+PAS        = 0.2
+GRAVITE    = (0, 9.81)
 STATUE_JEU = False
 
-# Skin
-LARGEUR = 20         
-HAUTEUR = 20
+# Personnage
+LARGEUR      = 20
+HAUTEUR      = 20
 TAILLE_PERSO = 10
 
+# Dimensions des blocs par thème
 HAUTEUR_BLOC = {
     "desert": 35,
     "espace": 33,
@@ -28,15 +28,18 @@ LARGEUR_BLOC = {
     "pirate": 100,
 }
 
+# Skins disponibles
 LISTE_SKIN = [
-    ["agent_secret", "astronaute", "aventurier"],
-    ["batman", "luigi", "mario"],
-    ["pirates", "standar", "superman"],
-    ["eren", "frisk_undertale", "geometrie"],
-    ["gojo", "levi", "mikassa"],
-    ["papyrus_undertale", "undertale_sans", None]
-]  
+    ["agent_secret",      "astronaute",       "aventurier"],
+    ["batman",            "luigi",             "mario"],
+    ["pirates",           "standar",           "superman"],
+    ["eren",              "frisk_undertale",   "geometrie"],
+    ["gojo",              "levi",              "mikassa"],
+    ["papyrus_undertale", "undertale_sans",    None],
+]
+NB_SKINS_PAR_PAGE = 9
 
+# Couleurs des rectangle pour les blocs sans image
 COULEURS_BLOCS = {
     "normal":     "green",
     "glace":      "cyan",
@@ -46,19 +49,23 @@ COULEURS_BLOCS = {
     "trampoline": "pink",
 }
 
+# Noms d'image des blocs spéciaux
 NOMS_BLOCS_SPECIAUX = {
-    "trampoline":    "amorti.png",
-    "colant":    "colant.png",
-    "derape":  "derapage.png",
-    "elastique": "elastique.png",
-    "glace":"glissement.png",
+    "trampoline": "amorti.png",
+    "colant":     "colant.png",
+    "derape":     "derapage.png",
+    "elastique":  "elastique.png",
+    "glace":      "glissement.png",
 }
 
-TAILLE_BLOC_L = 150  
+# Tailles des blocs horizontaux
+TAILLE_BLOC_L = 150
 TAILLE_BLOC_H = 40
 
+# Tailles des blocs verticaux
 TAILLE_BLOC_V_L = 40
-TAILLE_BLOC_V_H = 100 
+TAILLE_BLOC_V_H = 100
 
-FINESSE_POSITION = 10
-INCREMENT_VITESSE = 80
+# Solveur
+FINESSE_POSITION  = 5
+INCREMENT_VITESSE = 5
