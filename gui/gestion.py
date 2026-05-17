@@ -17,7 +17,7 @@ def dans_zone(x, y, xmin, xmax, ymin, ymax):
 def clic_principal(x, y, etat):
     if dans_zone(x, y, 260, 410, 650, 690):
         etat.menu = "SKIN"
-        charger_menue_skin(etat.skin)
+        charger_menue_skin(etat.skin, etat.page_skin)
     elif dans_zone(x, y, 290, 510, 280, 340):
         etat.menu = "THEME"
         efface_tout()
@@ -29,6 +29,9 @@ def clic_principal(x, y, etat):
         maj_page(etat, page_niveaux())
 
 def clic_skin(x, y, mon_jeu, etat):
+    tous_les_skins = [s for ligne in LISTE_SKIN for s in ligne if s is not None]
+    nb_pages = max(1, -(-len(tous_les_skins) // 9))
+
     if dans_zone(x, y, 300, 500, 720, 780):
         if etat.niveau == 0:
             etat.menu = "PRINCIPAL"
@@ -39,17 +42,35 @@ def clic_skin(x, y, mon_jeu, etat):
             nv_skin = f"{etat.skin}_j"
             etat.menu = "NIVEAU"
             charger_page_niveau(etat.theme, etat.niveau, nv_skin, mon_jeu)
-    
+            return etat
+
+    if dans_zone(x, y, 0, 100, 350, 450):
+        if etat.page_skin > 0:
+            etat.page_skin -= 1
+            charger_menue_skin(etat.skin, etat.page_skin)
+        return etat
+
+    if dans_zone(x, y, 700, 800, 350, 450):
+        if etat.page_skin < nb_pages - 1:
+            etat.page_skin += 1
+            charger_menue_skin(etat.skin, etat.page_skin)
+        return etat
+
     taille_demi_case = 75
-    for i in range(3):
-        for j in range(3):
-            centre_x = 200 + (j * 200)
-            centre_y = 200 + (i * 200)
-            if dans_zone(x, y, centre_x - taille_demi_case, centre_x + taille_demi_case, 
-                               centre_y - taille_demi_case, centre_y + taille_demi_case):
-                etat.skin = LISTE_SKIN[i][j]
-                charger_menue_skin(etat.skin)
-                return etat
+    tranche = tous_les_skins[etat.page_skin * 9 : etat.page_skin * 9 + 9]
+
+    for index, nom_skin in enumerate(tranche):
+        i = index // 3
+        j = index % 3
+        centre_x = 200 + j * 200
+        centre_y = 200 + i * 200
+        if dans_zone(x, y, centre_x - taille_demi_case, centre_x + taille_demi_case,
+                           centre_y - taille_demi_case, centre_y + taille_demi_case):
+            etat.skin = nom_skin
+            charger_menue_skin(etat.skin, etat.page_skin)
+            return etat
+
+    return etat
 
 def clic_editeur(x, y, etat):
     if dans_zone(x, y, 300, 500, 730, 790):

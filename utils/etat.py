@@ -3,6 +3,7 @@ class EtatJeu:
         
         self.menu = "PRINCIPAL"
         self.skin = "standar"
+        self.page_skin = 0
         self.theme = ""
         self.niveau = 0
         self.menue = None
