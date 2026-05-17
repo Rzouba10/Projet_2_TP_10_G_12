@@ -3,9 +3,10 @@ from utils.constantes import *
 from requirement.fltk import *
 from gui.interface import *
 from time import *
+from random import *
 
-FINESSE_POSITION = 10
-INCREMENT_VITESSE = 10
+FINESSE_POSITION = 5
+INCREMENT_VITESSE = 5
 
 
 def simuler_saut(jeu, vitesse_x, vitesse_y, objectif=None):

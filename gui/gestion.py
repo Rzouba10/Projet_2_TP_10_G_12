@@ -142,17 +142,19 @@ def clic_editeur_nv(x, y, etat):
         for bloc in editeur["blocs"]:
             if "x" in bloc:
                 cx, cy = bloc["x"], bloc["y"]
-                bx1 = cx - TAILLE_BLOC_L // 2
-                by1 = cy - TAILLE_BLOC_H // 2
-                bx2 = cx + TAILLE_BLOC_L // 2
-                by2 = cy + TAILLE_BLOC_H // 2
+                tl = bloc.get("taille_l", TAILLE_BLOC_L)
+                th = bloc.get("taille_h", TAILLE_BLOC_H)
+                bx1 = cx - tl // 2
+                by1 = cy - th // 2
+                bx2 = cx + tl // 2
+                by2 = cy + th // 2
             else:
                 bx1, by1 = bloc["coin1"]
                 bx2, by2 = bloc["coin2"]
             jeu_test.lst_blocs.append(Bloc((bx1, by1), (bx2, by2), bloc["type"]))
 
         objectif_test = {"x1": x1, "y1": y1, "x2": x2, "y2": y2}
-        solution = solveur_largeur(jeu_test, objectif_test)
+        solution = solveur_profondeur(jeu_test, objectif_test)
 
         if solution is None:
             etat.menu = "ALERTE"
