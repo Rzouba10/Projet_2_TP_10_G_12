@@ -189,6 +189,32 @@
                 <p>Prend les coordonnées d'un clic de souris et calcule la vitesse de départ plafonné par la <code>VMAX</code>. Renvoie également un vecteur vitesse et direction pour l'afficher dans le niveau.</p>
             </div>
 
+            <!-- =================================================================================================================================== -->
+
+            <div class="fonction-block">
+                <div class="fonction-name">pas()</div>
+                <div class="fonction-file">core/core.py</div>
+                <p>Effectue une étape du mouvement du joueur. S'éxecute en boucle tant que la vitesse du personnage n'est pas nul. Gère également les colision avec les blocs classiques et les blocs spéciaux.</p>
+            </div>
+
+            <div class="fonction-block">
+                <div class="fonction-name">en_collision()</div>
+                <div class="fonction-file">core/core.py</div>
+                <p>À chaque pas, parcours l'ensemble des blocs d'un niveau et détecte si il est en colision avec le joueur. Détecte aussi son type de bloc si il est spécial.</p>
+            </div>
+
+            <div class="fonction-block">
+                <div class="fonction-name">detection_colision()</div>
+                <div class="fonction-file">core/core.py</div>
+                <p>Détecte avec des coordonnées précise d'un bloc, si le joueur est en colision avec celui-ci.</p>
+            </div>
+
+            <div class="fonction-block">
+                <div class="fonction-name">clic_vers_vitesse(clic)</div>
+                <div class="fonction-file">core/core.py</div>
+                <p>Prend les coordonnées d'un clic de souris et calcule la vitesse de départ plafonné par la <code>VMAX</code>. Renvoie également un vecteur vitesse et direction pour l'afficher dans le niveau.</p>
+            </div>
+
         </section>
 
         <section id="repartition" class="card">
@@ -197,8 +223,8 @@
 
             <div class="repartition-grid">
                 <div class="membre-card">
-                    <div class="membre-nom">Rayan Zouba</div>
-                    <div class="membre-pct">50%</div>
+                    <div class="membre-nom">Étudiant 1</div>
+                    <div class="membre-pct">60%</div>
                     <ul class="styled-list">
                         <li>Realisation de la Tâche 3 : Affichage graphique et interface utilisateur</li>
                         <li>Realisation de la Tâche 4 : Recherche automatique de solution</li>
@@ -206,8 +232,8 @@
                     </ul>
                 </div>
                 <div class="membre-card">
-                    <div class="membre-nom">Remi Tribut</div>
-                    <div class="membre-pct">50%</div>
+                    <div class="membre-nom">Étudiant 2</div>
+                    <div class="membre-pct">40%</div>
                     <ul class="styled-list">
                         <li>Gestion du moteur physique : Calcul du vecteur vitesse, des colisions en fonction du bloc et des étapes du mouvement.</li>
                         <li>Représentation des données : Lecture d'un fichier de niveau à l'aide de méthodes et rangement dans une Classe avec des attributs.</li>
@@ -218,8 +244,10 @@
 
             <h3>Difficultés rencontrées</h3>
             <ul class="styled-list">
+                <li>Calcul des coordonnées du vecteur vitesse lors d'un clic gauche dans le jeu.</li>
                 <li>Gestion des deux formats de blocs (image et rectangle) dans l'éditeur.</li>
                 <li>Synchronisation des dimensions réelles des blocs entre l'éditeur, la sauvegarde et le solveur.</li>
+                <li>Conception d'un troisième solveur qui trouve des solutions non optimales mais toujours valides.</li>
             </ul>
         </section>
 
