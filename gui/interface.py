@@ -515,9 +515,13 @@ def gestion_clic_editeur(x, y, etat_editeur):
             taille_l = TAILLE_BLOC_V_L
             taille_h = TAILLE_BLOC_V_H
             suffixe = "_v"
-        else:
+        elif type_block in NOMS_BLOCS_SPECIAUX:
             taille_l = TAILLE_BLOC_L
             taille_h = TAILLE_BLOC_H
+            suffixe = ""
+        else:
+            taille_l = LARGEUR_BLOC.get(theme, TAILLE_BLOC_L)
+            taille_h = HAUTEUR_BLOC.get(theme, TAILLE_BLOC_H)
             suffixe = ""
 
         if type_block in NOMS_BLOCS_SPECIAUX:
@@ -635,6 +639,6 @@ def gestion_clic_editeur(x, y, etat_editeur):
 
 def afficher_victoire(score):
     image(400, 400, "ressource/image/fond/victoire.png")
-    texte(400, 550,"Score :"+ str(score), couleur="white", taille=40, ancrage="center")
+    texte(400, 550,"Score : "+ str(score), couleur="white", taille=40, ancrage="center")
     image(400, 700, "ressource/image/fond/bouton_retour.png")
     mise_a_jour()
