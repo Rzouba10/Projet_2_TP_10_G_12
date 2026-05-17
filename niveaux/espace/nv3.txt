@@ -21,4 +21,8 @@ espace
 25,443,175,483,glace,espace
 183,543,333,583,glace,espace
 192,158,342,198,glace,espace
+<<<<<<< HEAD
 24,84,174,124,glace,espace
+=======
+24,84,174,124,glace,espace
+>>>>>>> 68c663e26816c4f16320f0344efd62f79fb48c92

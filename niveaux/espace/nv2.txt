@@ -27,4 +27,8 @@ espace
 100,167,140,267,elastique,espace
 100,91,140,191,elastique,espace
 408,118,558,158,derape,espace
+<<<<<<< HEAD
 63,237,103,337,elastique,espace
+=======
+63,237,103,337,elastique,espace
+>>>>>>> 68c663e26816c4f16320f0344efd62f79fb48c92

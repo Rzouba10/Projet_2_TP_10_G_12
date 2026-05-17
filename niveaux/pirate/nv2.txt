@@ -15,4 +15,8 @@ pirate
 123,184,273,224,glace,pirate
 379,260,529,300,derape,pirate
 561,415,601,515,normal,pirate
+<<<<<<< HEAD
 340,150,380,250,normal,pirate
+=======
+340,150,380,250,normal,pirate
+>>>>>>> 68c663e26816c4f16320f0344efd62f79fb48c92

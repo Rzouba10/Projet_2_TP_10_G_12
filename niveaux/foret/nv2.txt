@@ -9,4 +9,8 @@ foret
 550,590,648,618,normal,foret
 592,288,632,388,colant,foret
 698,196,738,296,colant,foret
+<<<<<<< HEAD
 509,234,607,262,normal,foret
+=======
+509,234,607,262,normal,foret
+>>>>>>> 68c663e26816c4f16320f0344efd62f79fb48c92

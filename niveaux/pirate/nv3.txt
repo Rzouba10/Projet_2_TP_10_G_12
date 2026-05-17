@@ -23,4 +23,8 @@ pirate
 19,692,59,792,elastique,pirate
 15,568,55,668,elastique,pirate
 94,624,134,724,elastique,pirate
+<<<<<<< HEAD
 115,586,215,618,normal,pirate
+=======
+115,586,215,618,normal,pirate
+>>>>>>> 68c663e26816c4f16320f0344efd62f79fb48c92
