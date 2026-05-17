@@ -41,7 +41,6 @@ def sauvegarder_niveau(etat_editeur, theme_choisi, nom_fichier=None):
                 x1, y1 = bloc["coin1"]
                 x2, y2 = bloc["coin2"]
                 theme = "custom"
-
             type_bloc = bloc["type"]
             fichier.write(f"{x1},{y1},{x2},{y2},{type_bloc},{theme}\n")
 

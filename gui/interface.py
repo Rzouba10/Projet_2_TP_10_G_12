@@ -364,20 +364,34 @@ def mouvement(jeu, skin, theme, trace):
     STATUE_JEU = False
     return resultat_final
 
-def charger_menue_skin(skin):
-    efface_tout()
-    fond = image(400, 400, "ressource/image/fond/menue.png")
-    retour = image(400, 750, "ressource/image/fond/bouton_retour.png")
-    
-    for i in range(3):
-        for j in range(3):
-            if LISTE_SKIN[i][j] == skin:
-                image(200+(j*200),200+(i*200),"ressource/image/fond/Skin_t.png")
-            elif LISTE_SKIN[i][j] != skin:
-                image(200+(j*200),200+(i*200),"ressource/image/fond/Skin_f.png")
-            image(200+(j*200),200+(i*200),"ressource/image/perso/" + str(LISTE_SKIN[i][j])+".png")
+def charger_menue_skin(skin, page=0):
+    NB_SKINS_PAR_PAGE = 9
+    tous_les_skins = [s for ligne in LISTE_SKIN for s in ligne if s is not None]
+    nb_pages = max(1, -(-len(tous_les_skins) // NB_SKINS_PAR_PAGE))
+    page = max(0, min(page, nb_pages - 1))
 
-    mise_a_jour()           
+    tranche = tous_les_skins[page * 9 : page * 9 + 9]
+
+    efface_tout()
+    image(400, 400, "ressource/image/fond/menue.png")
+    image(400, 750, "ressource/image/fond/bouton_retour.png")
+
+    for index, nom_skin in enumerate(tranche):
+        i = index // 3
+        j = index % 3
+        if nom_skin == skin:
+            image(200 + j * 200, 200 + i * 200, "ressource/image/fond/Skin_t.png")
+        else:
+            image(200 + j * 200, 200 + i * 200, "ressource/image/fond/Skin_f.png")
+        image(200 + j * 200, 200 + i * 200, f"ressource/image/perso/{nom_skin}.png")
+
+    if page > 0:
+        image(50, 400, "ressource/image/bouton/fleche_g.png")
+    if page < nb_pages - 1:
+        image(750, 400, "ressource/image/bouton/fleche_d.png")
+
+    mise_a_jour()
+    return {"page": page, "nb_pages": nb_pages}
 
 
 def charger_pause_save(evenement):

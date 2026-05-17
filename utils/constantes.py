@@ -28,9 +28,14 @@ LARGEUR_BLOC = {
     "pirate": 100,
 }
 
-LISTE_SKIN = [["agent_secret","astronaute","aventurier"],
-              ["batman","luigi","mario"],
-              ["pirates","standar","superman"]]   
+LISTE_SKIN = [
+    ["agent_secret", "astronaute", "aventurier"],
+    ["batman", "luigi", "mario"],
+    ["pirates", "standar", "superman"],
+    ["eren", "frisk_undertale", "geometrie"],
+    ["gojo", "levi", "mikassa"],
+    ["papyrus_undertale", "undertale_sans", None]
+]  
 
 COULEURS_BLOCS = {
     "normal":     "green",
