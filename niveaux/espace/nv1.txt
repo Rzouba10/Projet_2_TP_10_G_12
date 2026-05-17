@@ -12,8 +12,4 @@ espace
 104,461,144,561,normal,espace
 673,439,713,539,normal,espace
 458,432,608,472,derape,espace
-<<<<<<< HEAD
 201,433,351,473,derape,espace
-=======
-201,433,351,473,derape,espace
->>>>>>> 68c663e26816c4f16320f0344efd62f79fb48c92

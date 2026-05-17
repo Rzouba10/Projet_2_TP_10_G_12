@@ -19,8 +19,4 @@ desert
 192,503,292,537,normal,desert
 178,391,278,425,normal,desert
 517,370,617,404,normal,desert
-<<<<<<< HEAD
 338,352,438,386,normal,desert
-=======
-338,352,438,386,normal,desert
->>>>>>> 68c663e26816c4f16320f0344efd62f79fb48c92

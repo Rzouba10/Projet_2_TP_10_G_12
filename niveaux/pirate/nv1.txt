@@ -20,8 +20,4 @@ pirate
 478,353,578,385,normal,pirate
 217,340,317,372,normal,pirate
 87,279,187,311,normal,pirate
-<<<<<<< HEAD
 600,284,700,316,normal,pirate
-=======
-600,284,700,316,normal,pirate
->>>>>>> 68c663e26816c4f16320f0344efd62f79fb48c92

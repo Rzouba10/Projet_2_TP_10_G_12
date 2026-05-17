@@ -12,8 +12,4 @@ foret
 533,528,631,556,normal,foret
 482,427,632,467,glace,foret
 348,456,498,496,trampoline,foret
-<<<<<<< HEAD
 206,394,304,422,normal,foret
-=======
-206,394,304,422,normal,foret
->>>>>>> 68c663e26816c4f16320f0344efd62f79fb48c92

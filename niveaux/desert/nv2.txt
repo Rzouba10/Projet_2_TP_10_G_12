@@ -10,8 +10,4 @@ desert
 263,509,363,543,normal,desert
 423,392,463,492,colant,desert
 508,350,658,390,trampoline,desert
-<<<<<<< HEAD
 241,345,391,385,trampoline,desert
-=======
-241,345,391,385,trampoline,desert
->>>>>>> 68c663e26816c4f16320f0344efd62f79fb48c92
