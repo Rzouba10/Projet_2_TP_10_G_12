@@ -14,6 +14,9 @@ class Game:
         self.theme = ""
 
     def vider(self):
+        """
+        Méthode appelé pour effacer les données du jeu. Utilisé lorsque le joueur quitte le niveau en cours.
+        """
         self.position_x = 0
         self.position_y = 0
         self.vitesse_x = 0
@@ -24,6 +27,9 @@ class Game:
         self.theme = ""
         
     def lire_fichier_niveau(self,fichier):
+        """
+        Méthode lisant le fichier du niveau actuelle. Renvoie une liste de liste non trié.
+        """
         lignes = list()
         f = open(fichier, "r", encoding="utf-8")
         for ligne in f:
@@ -33,6 +39,9 @@ class Game:
         return lignes
 
     def ranger_donnees(self,fichier):
+        """
+        Range les données de la méthode lire_fichier_niveau(self,fichier) dans les attribus de la classe
+        """
         donnes = self.lire_fichier_niveau(fichier)
         x = donnes[0].split(",")
         self.position_x = int(x[0])
@@ -50,6 +59,10 @@ class Game:
             )
     
     def clic_vers_vitesse(self, clic):
+        """
+        Prend les coordonnées d'un clic gauche et renvoie les coordonnées d'un vecteur en fonction de la direction et plafonné par la VMAX.
+        Modifie également la vitesse pour le premier pas.
+        """
         u_x = clic[0] - self.position_x
         u_y = clic[1] - self.position_y
         distance = sqrt(u_x**2+u_y**2)
@@ -69,6 +82,10 @@ class Game:
         return (int(u_x),int(u_y))
     
     def pas(self):
+        """
+        Simule une étape du mouvement. Prend en compte la vitesse, la gravité et les colisions.
+        Gère aussi les colisions avec les blocs spéciaux.
+        """
         # ==========================================================
 
         x_arrive = self.position_x + self.vitesse_x * PAS
@@ -143,6 +160,10 @@ class Game:
 
 
     def detection_colision(self,coin_sup_gauche,coin_inf_droit):
+        """
+        Prend en paramètre les coordonnées d'un bloc. 
+        Détecte si le joueur est en colision avec celui-ci.
+        """
         x_max = coin_inf_droit[0]
         x_min = coin_sup_gauche[0]
         y_max = coin_inf_droit[1]
@@ -153,6 +174,9 @@ class Game:
         return False
 
     def en_collision(self):
+        """
+        Parcours l'ensemble des bloc du niveau. Renvoie le type de colision rencontré. Renvoie None sinon.
+        """
         for bloc in self.lst_blocs:
             if self.detection_colision(bloc.coin_sup_gauche,bloc.coin_inf_droit):
                 return bloc.type
@@ -161,6 +185,9 @@ class Game:
         return None
 
     def is_winnable(self):
+        """
+        Détecte si le joueur est dans la zone de l'objectif.
+        """
         return self.detection_colision(self.objectif[0],self.objectif[1])
 
 
