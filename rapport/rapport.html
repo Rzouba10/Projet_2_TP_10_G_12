@@ -1,14 +1,223 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <title>Rapport Projet 2</title>
+<head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="rapport.css">
-  </head>
-  <body>
-    <h1>Rapport PROJET 2</h1>
-    <p>
-        08/04/2026 12h10 : on a bcp avancer
-    </p>
-  </body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport Projet 2 — Saute Mouton</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="sidebar">
+        <div class="sidebar-logo">🐑</div>
+        <div class="sidebar-title">Saute<br>Mouton</div>
+        <ul class="nav-links">
+            <li><a href="rapport.html" class="active">Rapport</a></li>
+            <li><a href="documentation.html">Documentation</a></li>
+        </ul>
+        <div class="nav-section-title">Rapport</div>
+        <ul class="nav-sub">
+            <li><a href="#identite">Identité</a></li>
+            <li><a href="#guide">Guide utilisateur</a></li>
+            <li><a href="#avancement">Avancement</a></li>
+            <li><a href="#ameliorations">Améliorations</a></li>
+            <li><a href="#fonctions">Fonctions clés</a></li>
+            <li><a href="#repartition">Répartition</a></li>
+        </ul>
+    </nav>
+
+    <main class="content">
+
+        <header class="page-header">
+            <span class="tag">Rapport de projet</span>
+            <h1>Saute Mouton</h1>
+            <p class="subtitle">Projet de programmation — L1 MI</p>
+        </header>
+
+        <section id="identite" class="card">
+            <div class="card-label">01</div>
+            <h2>Identité du groupe</h2>
+
+            <table class="info-table">
+                <tr>
+                    <td class="label">Étudiant 1</td>
+                    <td>RAYAN Zouba - Groupe 12 - TP 10 </td>
+                </tr>
+                <tr>
+                    <td class="label">Étudiant 2</td>
+                    <td>REMI TRIBUT - Groupe 12 - TP 10</td>
+                </tr>
+                <tr>
+                    <td class="label">Année</td>
+                    <td>2024–2025</td>
+                </tr>
+            </table>
+        </section>
+
+        <section id="guide" class="card">
+            <div class="card-label">02</div>
+            <h2>Guide utilisateur</h2>
+
+            <h3>Lancement</h3>
+            <div class="code-block">python main.py</div>
+            <p>
+                <!-- Explique comment lancer le programme -->
+                Lance le fichier <code>main.py</code> depuis la racine du projet.
+            </p>
+
+            <h3>Menus</h3>
+            <ul class="styled-list">
+                <li><strong>Menu principal</strong> — point d'entrée du jeu. Permet d'accéder aux thèmes, à l'éditeur et au choix de skin.</li>
+                <li><strong>Thème</strong> — choix du monde (Forêt, Pirate, Désert, Espace) ou des niveaux créés.</li>
+                <li><strong>Niveau</strong> — sélection du niveau 1, 2 ou 3.</li>
+                <li><strong>Éditeur</strong> — création et modification de niveaux personnalisés.</li>
+            </ul>
+
+            <h3>Contrôles en jeu</h3>
+            <ul class="styled-list">
+                <li><strong>Clic gauche</strong> — vise et prépare le saut (affiche la trajectoire).</li>
+                <li><strong>Clic droit</strong> — lance le mouton dans la direction visée.</li>
+                <li><strong>Touche Z</strong> — retour en arrière (annule le dernier saut).</li>
+                <li><strong>Échap</strong> — met le jeu en pause.</li>
+            </ul>
+
+            <h3>Éditeur de niveaux</h3>
+            <ul class="styled-list">
+                <li>Choisis un <strong>thème</strong> pour poser des blocs avec image, ou laisse sur <strong>Normal</strong> pour des blocs rectangles.</li>
+                <li>Les modes <strong>Ajouter / Modifier / Supprimer</strong> permettent de gérer les blocs.</li>
+                <li>Définis un <strong>Départ</strong> et un <strong>Objectif</strong> avant de sauvegarder.</li>
+                <li>Le bouton <strong>Sauvegarder</strong> vérifie que le niveau est faisable avant d'enregistrer.</li>
+            </ul>
+        </section>
+
+        <section id="avancement" class="card">
+            <div class="card-label">03</div>
+            <h2>État d'avancement</h2>
+
+            <!-- REMPLIS ICI : ce qui est fait, ce qui ne l'est pas, les bugs -->
+            <h3>Parties obligatoires terminées</h3>
+            <ul class="styled-list check">
+                <li>Physique du mouton (gravité, collisions, types de blocs)</li>
+                <li>Affichage graphique avec thèmes visuels</li>
+                <li>Solveur en profondeur et en largeur</li>
+                <li>Éditeur de niveaux complet (ajout, modification, suppression)</li>
+                <li>Sauvegarde et chargement des niveaux créés</li>
+                <li>Vérification de la faisabilité avant sauvegarde</li>
+            </ul>
+
+            <h3>Bugs connus</h3>
+            <ul class="styled-list cross">
+                <!-- Liste ici les bugs que tu connais -->
+                <li>Aucun bug majeur connu au moment de la remise.</li>
+            </ul>
+        </section>
+
+        <section id="ameliorations" class="card">
+            <div class="card-label">04</div>
+            <h2>Améliorations</h2>
+
+            <!-- REMPLIS ICI : les fonctionnalités bonus que tu as ajoutées -->
+            <ul class="styled-list star">
+                <li><strong>Éditeur de niveaux</strong> — création, modification et suppression de niveaux personnalisés avec choix de thème visuel.</li>
+                <li><strong>Blocs verticaux</strong> — blocs image orientables verticalement ou horizontalement dans l'éditeur.</li>
+                <li><strong>Solveur heuristique glouton</strong> — troisième algorithme de résolution qui produit des solutions non optimales, intéressantes pour le joueur.</li>
+                <li><strong>Écran de victoire</strong> — affichage du score (nombre de sauts) à la fin d'un niveau.</li>
+                <li><strong>Retour arrière</strong> — annulation du dernier saut avec la touche Z.</li>
+                <li><strong>Choix de skin</strong> — personnalisation de l'apparence du mouton.</li>
+            </ul>
+        </section>
+
+        <section id="fonctions" class="card">
+            <div class="card-label">05</div>
+            <h2>Fonctions importantes</h2>
+
+            <!-- REMPLIS ICI : décris chaque fonction importante -->
+
+            <div class="fonction-block">
+                <div class="fonction-name">mouvement(jeu, skin, theme, trace)</div>
+                <div class="fonction-file">gui/interface.py</div>
+                <p>Gère l'animation du mouton en temps réel. À chaque pas, met à jour la position, vérifie si l'objectif est atteint via <code>is_winnable()</code>, et dessine la trace du parcours. Retourne <code>"GAGNE"</code> si le joueur atteint l'objectif.</p>
+            </div>
+
+            <div class="fonction-block">
+                <div class="fonction-name">solveur_largeur(jeu, objectif)</div>
+                <div class="fonction-file">core/solveur.py</div>
+                <p>Implémente une recherche en largeur (BFS) pour trouver la solution optimale en nombre de sauts. Utilise une file et un ensemble de positions visitées avec une finesse de 10 pixels pour éviter de revisiter des positions proches.</p>
+            </div>
+
+            <div class="fonction-block">
+                <div class="fonction-name">solveur_profondeur(jeu, objectif)</div>
+                <div class="fonction-file">core/solveur.py</div>
+                <p>Implémente une recherche en profondeur (DFS) via une pile. Explore rapidement des chemins longs sans garantie d'optimalité. Utile pour les niveaux où la solution optimale est difficile à trouver.</p>
+            </div>
+
+            <div class="fonction-block">
+                <div class="fonction-name">solveur_glouton(jeu, objectif)</div>
+                <div class="fonction-file">core/solveur.py</div>
+                <p>Recherche heuristique qui mélange aléatoirement l'ordre d'exploration des vitesses à chaque étape. Utilise une pile pour explorer en profondeur, ce qui produit des solutions valides mais non optimales — intéressantes pour le joueur humain qui peut essayer de faire mieux.</p>
+            </div>
+
+            <div class="fonction-block">
+                <div class="fonction-name">simuler_saut(jeu, vitesse_x, vitesse_y, objectif)</div>
+                <div class="fonction-file">core/solveur.py</div>
+                <p>Simule un saut complet sans l'afficher. Sauvegarde l'état du jeu, applique les vitesses, exécute jusqu'à 5000 pas physiques, puis restaure l'état initial. Retourne la position d'atterrissage et si l'objectif a été atteint.</p>
+            </div>
+
+            <div class="fonction-block">
+                <div class="fonction-name">gestion_clic_editeur(x, y, etat_editeur)</div>
+                <div class="fonction-file">gui/interface.py</div>
+                <p>Cœur de l'éditeur de niveaux. Gère les cinq modes (Ajouter, Modifier, Supprimer, Objectif, Départ) pour les blocs image et les blocs rectangles. Distingue les deux formats de blocs via la clé <code>"x"</code> pour les blocs image et <code>"coin1"</code> pour les rectangles.</p>
+            </div>
+
+            <div class="fonction-block">
+                <div class="fonction-name">charger_editeur_depuis_fichier(chemin)</div>
+                <div class="fonction-file">gui/interface.py</div>
+                <p>Lit un fichier <code>.txt</code> de niveau et reconstruit la structure <code>etat.editeur</code> complète. Détermine l'orientation (vertical/horizontal) des blocs image selon leurs dimensions dans le fichier pour charger le bon chemin d'image.</p>
+            </div>
+
+            <div class="fonction-block">
+                <div class="fonction-name">sauvegarder_niveau(etat_editeur, theme_choisi, nom_fichier)</div>
+                <div class="fonction-file">utils/sauvegarde.py</div>
+                <p>Écrit le niveau dans un fichier <code>.txt</code> au format standard. Si <code>nom_fichier</code> est fourni, écrase le fichier existant (mode édition) ; sinon, crée un nouveau fichier numéroté (mode création). Utilise les vraies dimensions de chaque bloc pour calculer les coordonnées.</p>
+            </div>
+
+        </section>
+
+        <section id="repartition" class="card">
+            <div class="card-label">06</div>
+            <h2>Répartition du travail</h2>
+
+            <!-- REMPLIS ICI : qui a fait quoi, en pourcentage -->
+            <div class="repartition-grid">
+                <div class="membre-card">
+                    <div class="membre-nom">Étudiant 1</div>
+                    <div class="membre-pct">50%</div>
+                    <ul class="styled-list">
+                        <li><!-- Ce que tu as fait --></li>
+                        <li><!-- Ce que tu as fait --></li>
+                    </ul>
+                </div>
+                <div class="membre-card">
+                    <div class="membre-nom">Étudiant 2</div>
+                    <div class="membre-pct">50%</div>
+                    <ul class="styled-list">
+                        <li><!-- Ce que l'autre a fait --></li>
+                        <li><!-- Ce que l'autre a fait --></li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Difficultés rencontrées</h3>
+            <ul class="styled-list">
+                <!-- REMPLIS ICI -->
+                <li>Gestion des deux formats de blocs (image et rectangle) dans l'éditeur.</li>
+                <li>Synchronisation des dimensions réelles des blocs entre l'éditeur, la sauvegarde et le solveur.</li>
+                <li>Conception d'un troisième solveur qui trouve des solutions non optimales mais toujours valides.</li>
+            </ul>
+        </section>
+
+    </main>
+
+</body>
 </html>

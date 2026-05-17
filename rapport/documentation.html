@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation — Saute Mouton</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="sidebar">
+        <div class="sidebar-logo">🐑</div>
+        <div class="sidebar-title">Saute<br>Mouton</div>
+        <ul class="nav-links">
+            <li><a href="rapport.html">Rapport</a></li>
+            <li><a href="documentation.html" class="active">Documentation</a></li>
+        </ul>
+        <div class="nav-section-title">Documentation</div>
+        <ul class="nav-sub">
+            <li><a href="#structure">Structure</a></li>
+            <li><a href="#core">core/</a></li>
+            <li><a href="#gui">gui/</a></li>
+            <li><a href="#utils">utils/</a></li>
+            <li><a href="#format">Format fichier</a></li>
+            <li><a href="#solveurs">Algorithmes</a></li>
+        </ul>
+    </nav>
+
+    <main class="content">
+
+        <header class="page-header">
+            <span class="tag">Documentation technique</span>
+            <h1>Architecture du projet</h1>
+            <p class="subtitle">Référence complète des modules et fonctions</p>
+        </header>
+
+        <section id="structure" class="card">
+            <div class="card-label">01</div>
+            <h2>Structure du projet</h2>
+            <div class="code-block">
+projet/<br>
+├── main.py               <span class="comment"># Point d'entrée</span><br>
+├── core/<br>
+│   ├── core.py           <span class="comment"># Classes Game et Bloc</span><br>
+│   └── solveur.py        <span class="comment"># Algorithmes de résolution</span><br>
+├── gui/<br>
+│   ├── interface.py      <span class="comment"># Affichage et éditeur</span><br>
+│   └── gestion.py        <span class="comment"># Gestion des clics</span><br>
+├── utils/<br>
+│   ├── constantes.py     <span class="comment"># Constantes globales</span><br>
+│   ├── sauvegarde.py     <span class="comment"># Lecture/écriture fichiers</span><br>
+│   ├── etat.py           <span class="comment"># Classe EtatJeu</span><br>
+│   └── structure.py      <span class="comment"># Pile, File, utilitaires</span><br>
+├── niveaux/<br>
+│   ├── foret/            <span class="comment"># nv1.txt, nv2.txt, nv3.txt</span><br>
+│   ├── desert/<br>
+│   ├── espace/<br>
+│   ├── pirate/<br>
+│   └── creation/         <span class="comment"># Niveaux créés par le joueur</span><br>
+└── ressource/            <span class="comment"># Images et assets</span>
+            </div>
+        </section>
+
+        <section id="core" class="card">
+            <div class="card-label">02</div>
+            <h2>Module core/</h2>
+
+            <h3>core.py — Classe Game</h3>
+            <p>Représente l'état complet d'une partie en cours.</p>
+
+            <div class="attr-block">
+                <div class="attr-title">Attributs</div>
+                <table class="info-table">
+                    <tr><td class="label">position_x, position_y</td><td>Position actuelle du mouton</td></tr>
+                    <tr><td class="label">vitesse_x, vitesse_y</td><td>Vitesse courante</td></tr>
+                    <tr><td class="label">nb_jump</td><td>Nombre de sauts effectués (score)</td></tr>
+                    <tr><td class="label">objectif</td><td>Liste de deux points [(x1,y1),(x2,y2)]</td></tr>
+                    <tr><td class="label">lst_blocs</td><td>Liste des objets Bloc du niveau</td></tr>
+                    <tr><td class="label">theme</td><td>Thème visuel du niveau</td></tr>
+                </table>
+            </div>
+
+            <div class="fonction-block">
+                <div class="fonction-name">pas()</div>
+                <p>Avance la simulation d'un pas physique. Applique la gravité, détecte les collisions sur X puis sur Y, gère les comportements spéciaux (glace, colant, élastique, trampoline, dérapé). Retourne <code>"Finish"</code> quand le mouton s'arrête.</p>
+            </div>
+
+            <div class="fonction-block">
+                <div class="fonction-name">detection_colision(coin_sup_gauche, coin_inf_droit)</div>
+                <p>Vérifie si la position actuelle du mouton est à l'intérieur d'un rectangle défini par deux coins. Retourne un booléen.</p>
+            </div>
+
+            <div class="fonction-block">
+                <div class="fonction-name">is_winnable()</div>
+                <p>Vérifie si le mouton est actuellement dans la zone objectif. Utilisé à chaque pas dans <code>mouvement()</code> pour détecter la victoire immédiatement.</p>
+            </div>
+
+            <div class="fonction-block">
+                <div class="fonction-name">clic_vers_vitesse(clic)</div>
+                <p>Convertit un clic souris en vecteur vitesse. Calcule la direction vers le clic, et plafonne la norme à <code>VMAX</code> si le clic est trop loin. Retourne le point d'arrivée visuel de la flèche.</p>
+            </div>
+
+            <h3>core.py — Classe Bloc</h3>
+            <table class="info-table">
+                <tr><td class="label">coin_sup_gauche</td><td>Coin haut-gauche (x, y)</td></tr>
+                <tr><td class="label">coin_inf_droit</td><td>Coin bas-droit (x, y)</td></tr>
+                <tr><td class="label">type</td><td>normal, glace, derape, colant, elastique, trampoline</td></tr>
+                <tr><td class="label">style</td><td>Thème visuel du bloc (foret, desert...) ou "custom"</td></tr>
+            </table>
+        </section>
+
+        <section id="gui" class="card">
+            <div class="card-label">03</div>
+            <h2>Module gui/</h2>
+
+            <h3>interface.py — Affichage</h3>
+
+            <div class="fonction-block">
+                <div class="fonction-name">charger_niveau(skin, jeu, theme, mise_a_jour_auto, dessiner_perso)</div>
+                <p>Redessine complètement le niveau : fond, parois, blocs (avec détection automatique orientation horizontale/verticale), objectif et personnage. Paramètres optionnels pour le solveur qui n'a pas besoin de mise à jour visuelle.</p>
+            </div>
+
+            <div class="fonction-block">
+                <div class="fonction-name">mouvement(jeu, skin, theme, trace)</div>
+                <p>Boucle d'animation principale. À chaque itération : vérifie la victoire, appelle <code>jeu.pas()</code>, met à jour l'affichage, enregistre la trace. Bloque l'interface pendant l'animation via <code>STATUE_JEU</code>. Retourne <code>"GAGNE"</code> ou <code>None</code>.</p>
+            </div>
+
+            <div class="fonction-block">
+                <div class="fonction-name">rafraichir_editeur(etat_editeur)</div>
+                <p>Redessine l'éditeur complet : fond, murs, tous les blocs (image ou rectangle selon le format), objectif, départ, et panneau de boutons avec indicateurs de sélection.</p>
+            </div>
+
+            <div class="fonction-block">
+                <div class="fonction-name">charger_editeur_depuis_fichier(chemin)</div>
+                <p>Lit un fichier <code>.txt</code> et reconstruit la structure dictionnaire de l'éditeur. Détermine l'orientation des blocs image par comparaison largeur/hauteur et charge le bon chemin d'image avec suffixe <code>_v</code> si vertical.</p>
+            </div>
+
+            <h3>gestion.py — Gestion des clics</h3>
+            <p>Chaque menu du jeu a une fonction <code>clic_xxx</code> dédiée. <code>gestion_clique()</code> dispatche vers la bonne fonction selon <code>etat.menu</code>.</p>
+
+            <table class="info-table">
+                <tr><td class="label">clic_principal</td><td>Menu principal : skin, thème, éditeur</td></tr>
+                <tr><td class="label">clic_jeu</td><td>Vise et prépare le saut</td></tr>
+                <tr><td class="label">clic_pause</td><td>Reprendre, solveur, sauvegarder</td></tr>
+                <tr><td class="label">clic_solveur</td><td>Lance profondeur, largeur ou glouton</td></tr>
+                <tr><td class="label">clic_editeur</td><td>Liste des niveaux : modifier, supprimer, créer</td></tr>
+                <tr><td class="label">clic_editeur_nv</td><td>Éditeur de niveau : boutons du panneau et canvas</td></tr>
+                <tr><td class="label">clic_gagne</td><td>Écran de victoire : retour au menu</td></tr>
+            </table>
+        </section>
+
+        <section id="utils" class="card">
+            <div class="card-label">04</div>
+            <h2>Module utils/</h2>
+
+            <h3>etat.py — Classe EtatJeu</h3>
+            <p>Contient tout l'état de l'interface entre deux clics.</p>
+            <table class="info-table">
+                <tr><td class="label">menu</td><td>Menu actif : "PRINCIPAL", "JEU", "PAUSE", "EDITEUR", "GAGNE"...</td></tr>
+                <tr><td class="label">skin</td><td>Skin choisi par le joueur</td></tr>
+                <tr><td class="label">theme</td><td>Thème du niveau en cours</td></tr>
+                <tr><td class="label">editeur</td><td>Dictionnaire complet de l'éditeur (blocs, objectif, départ...)</td></tr>
+                <tr><td class="label">fichier_en_cours</td><td>Nom du fichier en cours d'édition (<code>None</code> si création)</td></tr>
+                <tr><td class="label">trace</td><td>Liste des positions passées du mouton</td></tr>
+                <tr><td class="label">historique_departs</td><td>Pile pour le retour arrière (touche Z)</td></tr>
+            </table>
+
+            <h3>constantes.py</h3>
+            <table class="info-table">
+                <tr><td class="label">GRAVITE</td><td>Vecteur de gravité appliqué à chaque pas</td></tr>
+                <tr><td class="label">VMAX</td><td>Vitesse maximale d'un saut</td></tr>
+                <tr><td class="label">PAS</td><td>Incrément temporel de la simulation</td></tr>
+                <tr><td class="label">TAILLE_BLOC_L/H</td><td>Dimensions des blocs spéciaux horizontaux</td></tr>
+                <tr><td class="label">TAILLE_BLOC_V_L/H</td><td>Dimensions des blocs verticaux</td></tr>
+                <tr><td class="label">HAUTEUR_BLOC / LARGEUR_BLOC</td><td>Dimensions par thème des blocs flottants</td></tr>
+                <tr><td class="label">NOMS_BLOCS_SPECIAUX</td><td>Dict type → nom de fichier image</td></tr>
+                <tr><td class="label">STATUE_JEU</td><td>Booléen global bloquant les clics pendant l'animation</td></tr>
+            </table>
+
+            <h3>sauvegarde.py</h3>
+            <div class="fonction-block">
+                <div class="fonction-name">sauvegarder_niveau(etat_editeur, theme_choisi, nom_fichier=None)</div>
+                <p>Écrit le niveau au format standard. Si <code>nom_fichier</code> est donné, écrase le fichier existant ; sinon génère un nouveau nom numéroté. Calcule les coordonnées réelles de chaque bloc à partir de son centre et de ses dimensions <code>taille_l</code> / <code>taille_h</code>.</p>
+            </div>
+        </section>
+
+        <section id="format" class="card">
+            <div class="card-label">05</div>
+            <h2>Format des fichiers niveau</h2>
+            <p>Chaque niveau est un fichier <code>.txt</code> structuré ainsi :</p>
+            <div class="code-block">
+<span class="comment"># Ligne 1 : position de départ</span><br>
+400,300<br>
+<br>
+<span class="comment"># Ligne 2 : zone objectif (x1,y1,x2,y2)</span><br>
+100,200,200,300<br>
+<br>
+<span class="comment"># Ligne 3 : thème visuel</span><br>
+foret<br>
+<br>
+<span class="comment"># Lignes suivantes : blocs (x1,y1,x2,y2,type,theme)</span><br>
+189,420,339,460,normal,desert<br>
+441,241,591,281,glace,foret<br>
+517,407,557,507,normal,foret  <span class="comment"># bloc vertical (hauteur > largeur)</span>
+            </div>
+            <ul class="styled-list">
+                <li>Le <strong>thème</strong> de la ligne 3 peut valoir <code>foret</code>, <code>desert</code>, <code>espace</code>, <code>pirate</code> ou <code>none</code>.</li>
+                <li>Le <strong>theme</strong> de chaque bloc peut valoir un thème visuel ou <code>custom</code> pour un rectangle sans image.</li>
+                <li>L'<strong>orientation</strong> d'un bloc image est déduite automatiquement : si hauteur > largeur → vertical.</li>
+            </ul>
+        </section>
+
+        <!-- ALGORITHMES -->
+        <section id="solveurs" class="card">
+            <div class="card-label">06</div>
+            <h2>Algorithmes de résolution</h2>
+
+            <div class="algo-grid">
+                <div class="algo-card">
+                    <div class="algo-titre">Recherche en profondeur</div>
+                    <div class="algo-type">Naïve — DFS</div>
+                    <p>Utilise une <strong>pile</strong>. Explore un chemin jusqu'au bout avant d'en essayer un autre. Ne garantit pas la solution la plus courte. Rapide à démarrer mais peut s'égarer longtemps dans de mauvaises directions.</p>
+                    <div class="algo-struct">Structure : Pile</div>
+                </div>
+                <div class="algo-card">
+                    <div class="algo-titre">Recherche en largeur</div>
+                    <div class="algo-type">Optimale — BFS</div>
+                    <p>Utilise une <strong>file</strong>. Explore tous les chemins de longueur N avant ceux de longueur N+1. Garantit la solution avec le <strong>minimum de sauts</strong>. Plus lente sur les niveaux complexes.</p>
+                    <div class="algo-struct">Structure : File</div>
+                </div>
+            </div>
+
+            <h3>Paramètres communs</h3>
+            <table class="info-table">
+                <tr><td class="label">FINESSE_POSITION = 5</td><td>Deux positions à moins de 10px sont considérées identiques</td></tr>
+                <tr><td class="label">INCREMENT_VITESSE = 5</td><td>Pas entre chaque vitesse testée dans generer_vitesses()</td></tr>
+                <tr><td class="label">Max 5000 pas/saut</td><td>Limite de sécurité dans simuler_saut() pour éviter les boucles infinies</td></tr>
+            </table>
+        </section>
+
+    </main>
+
+</body>
+</html>
