@@ -1,0 +1,13 @@
+413,742
+647,322,688,384
+desert
+76,674,176,708,normal,desert
+23,517,63,617,elastique,desert
+624,681,664,781,normal,desert
+540,620,580,720,normal,desert
+437,547,477,647,normal,desert
+103,575,203,609,normal,desert
+263,509,363,543,normal,desert
+423,392,463,492,colant,desert
+508,350,658,390,trampoline,desert
+241,345,391,385,trampoline,desert

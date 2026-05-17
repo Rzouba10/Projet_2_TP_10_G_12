@@ -1,0 +1,15 @@
+132,189
+669,701,705,735
+desert
+570,735,720,775,glace,pirate
+176,70,216,170,colant,pirate
+41,168,81,268,colant,pirate
+66,282,216,322,derape,pirate
+360,267,400,367,trampoline,pirate
+361,141,401,241,trampoline,pirate
+66,478,106,578,normal,pirate
+459,444,499,544,elastique,pirate
+196,421,346,461,glace,pirate
+461,354,501,454,glace,pirate
+307,648,457,688,trampoline,pirate
+203,577,243,677,colant,pirate

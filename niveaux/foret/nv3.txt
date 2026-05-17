@@ -1,0 +1,15 @@
+77,767
+239,352,272,389
+foret
+314,558,464,598,glace,foret
+666,297,706,397,elastique,foret
+667,383,707,483,elastique,foret
+668,441,708,541,elastique,foret
+126,700,276,740,derape,foret
+152,596,250,624,normal,foret
+444,616,594,656,trampoline,foret
+595,624,693,652,normal,foret
+533,528,631,556,normal,foret
+482,427,632,467,glace,foret
+348,456,498,496,trampoline,foret
+206,394,304,422,normal,foret

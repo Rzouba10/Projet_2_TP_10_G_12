@@ -1,4 +1,10 @@
-77,724
-669,707,747,767
-none
-188,705,528,733,trampoline,custom
+118,465
+586,653,630,684
+pirate
+555,693,655,725,normal,pirate
+352,643,452,675,normal,pirate
+205,595,305,627,normal,pirate
+42,544,142,576,normal,pirate
+637,406,737,438,normal,pirate
+527,492,677,532,trampoline,pirate
+345,543,445,575,normal,pirate

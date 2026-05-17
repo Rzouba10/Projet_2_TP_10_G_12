@@ -1,5 +1,12 @@
-161,765
-440,593,503,668
-none
-321,384,486,445,glace,custom
-334,705,470,722,glace,custom
+42,763
+381,177,427,216
+foret
+134,698,284,738,trampoline,foret
+315,694,465,734,trampoline,foret
+238,590,336,618,normal,foret
+357,519,507,559,glace,foret
+708,372,748,472,colant,foret
+550,590,648,618,normal,foret
+592,288,632,388,colant,foret
+698,196,738,296,colant,foret
+509,234,607,262,normal,foret
